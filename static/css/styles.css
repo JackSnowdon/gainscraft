@@ -1,16 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Asap:wght@400;600&display=swap');
+
 /* Background */
 
 .bg {
-    background-color: #020704;
-    color: #d7e7f0;
-    height: 100%;
+    background-color: #D9E3C4;
+    font-family: 'Asap', sans-serif;
+    height: 100vh;
 }
 
 
 /* Navbar */
 
 .nav-bg {
-    background-color: #6e5b45;
+    background-color: #D8B679;
 }
 
 .nav-bg a {
@@ -22,7 +24,7 @@
 }
 
 .nav-bg a:hover {
-    color: #40a54d
+    color: #69433A;
 }
 
 .nav-button {
@@ -36,4 +38,12 @@
 .logged-in {
     color: #020704;
     margin: 8px 2px;
+}
+
+
+/* Fonts and Texts */
+
+.headliner-text {
+    font-weight: 600;
+    font-size: 3.4rem;
 }
