@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from .models import *
 from .forms import *
 from datetime import date, datetime, timedelta
@@ -34,4 +34,16 @@ def add_squat(request):
         form.done_by = request.user.profile
         form.save()
         messages.error(request, f"{form.done_by} Added {form.amount} Squats", extra_tags="alert")
+        return redirect("workout_home")
+
+
+@login_required
+def delete_squat(request, pk):
+    this_squat = get_object_or_404(Squat, pk=pk)
+    if this_squat.done_by == request.user.profile:
+        this_squat.delete()
+        messages.error(request, f"Deleted {this_squat.amount} Squats", extra_tags="alert")
+        return redirect(reverse("workout_home"))
+    else:
+        messages.error(request, f"Not Your Squats!", extra_tags="alert")
         return redirect("workout_home")
