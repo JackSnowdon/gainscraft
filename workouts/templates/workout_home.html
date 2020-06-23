@@ -11,9 +11,10 @@
 <section class="workouts">
     <div class="row text-center">
         <div class="col-md-4 col-12">
-            {% for squat in squats %}
-            <p>{{ squat }}</p>
-            {% endfor %}
+            <h5>Todays Squats:</h5>
+            {% for squat in squats_today %}
+            <p>{{ squat.amount }} @ {{ squat.done_on|date:"g:i a" }}</p>
+            <p>{{ squat.done_on|date }}</p> {% endfor %} It is {% now "g:i a" %}
         </div>
         <div class="col-md-4 col-12"></div>
         <div class="col-md-4 col-12"></div>
