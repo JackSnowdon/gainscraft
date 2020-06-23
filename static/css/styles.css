@@ -1,0 +1,39 @@
+/* Background */
+
+.bg {
+    background-color: #020704;
+    color: #d7e7f0;
+    height: 100%;
+}
+
+
+/* Navbar */
+
+.nav-bg {
+    background-color: #6e5b45;
+}
+
+.nav-bg a {
+    color: #020704;
+    transition: all 0.35s ease-in-out;
+    -moz-transition: all 0.35s ease-in-out;
+    -webkit-transition: all 0.35s ease-in-out;
+    -o-transition: all 0.35s ease-in-out;
+}
+
+.nav-bg a:hover {
+    color: #40a54d
+}
+
+.nav-button {
+    color: #f4f4f4;
+}
+
+.navbar-toggler {
+    outline: none;
+}
+
+.logged-in {
+    color: #020704;
+    margin: 8px 2px;
+}
