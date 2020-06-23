@@ -1,0 +1,1 @@
+web: gunicorn gcraft.wsgi:application
