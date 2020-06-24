@@ -3,7 +3,7 @@
     <div class="col-12">
         <p class="blog-link">- If you haven't registered an account, you can sign do so here <a class="link-helper" href="{% url 'registration' %}">Here!</a></p>
     </div>
-    <div class="col-12 mb-2 ml-3">
+    <div class="col-10 mb-2 ml-1">
         <form class="form-helper" method="POST">
             {% csrf_token %} {{ login_form|crispy }}
             <button type="submit" class="btn btn-success cart-add">Login</button>

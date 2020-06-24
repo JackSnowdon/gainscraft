@@ -50,15 +50,22 @@ def add_workout(request):
     if request.method == "POST":
         workout_form = WorkoutForm()
         form = workout_form.save(commit=False)
-        form.amount = int(request.POST.get("amount"))
-        form.workout_type = get_object_or_404(Exercise, name=request.POST.get("commit"))
-        form.done_by = request.user.profile
-        form.save()
-        messages.error(
-            request,
-            f"{form.done_by} Added {form.amount} {form.workout_type}s",
-            extra_tags="alert",
-        )
+        if request.POST.get("amount") == "":
+            messages.error(
+                request,
+                f"Invalid Input",
+                extra_tags="alert",
+            )
+        else:
+            form.amount = int(request.POST.get("amount"))
+            form.workout_type = get_object_or_404(Exercise, name=request.POST.get("commit"))
+            form.done_by = request.user.profile
+            form.save()
+            messages.error(
+                request,
+                f"{form.done_by} Added {form.amount} {form.workout_type}s",
+                extra_tags="alert",
+            )
         return redirect("workout_home")
 
 
@@ -74,3 +81,4 @@ def delete_workout(request, pk):
     else:
         messages.error(request, f"Not Your Squats!", extra_tags="alert")
         return redirect("workout_home")
+
