@@ -26,18 +26,10 @@
     </div>
 </section>
 
-<section class="workouts">
+<section class="results-panel mb-5">
     <div class="row text-center">
-        <div class="col-md-6 col-12">
-            <h5>Todays Squats: {{ todays_total }}</h5>
-            <form role="form" method="post" id="add_squat_form" action="{% url 'add_squat' %}">
-                <div class="form-group">
-                    {% csrf_token %}
-                    <input type="number" id="squat-amount" name="amount" min="0" class="mb-2">
-                    <br>
-                    <input class="btn btn-success" id="commit-squats" name="commit" type="submit" value="Add Squats">
-                </div>
-            </form>
+        <div class="col-md-4 col-12">
+            <h5>Press Ups: {{ press_ups_today }}</h5>
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -47,20 +39,68 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for squat in squats_today %}
+                    {% for press_up in press_ups %}
                     <tr>
-                        <th scope="row">{{ squat.amount }}</th>
-                        <td>{{ squat.done_on|date:"g:i a" }}</td>
+                        <th scope="row">{{ press_up.amount }}</th>
+                        <td>{{ press_up.done_on|date:"g:i a" }}</td>
                         <td>
-                            <a href="{% url 'delete_squat' squat.id %}"><i class="far fa-trash-alt"></i></a>
+                            <a href="{% url 'delete_workout' press_up.id %}"><i class="far fa-trash-alt"></i></a>
                         </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
-        <div class="col-md-6 col-12"></div>
+        <div class="col-md-4 col-12">
+            <h5>Todays Sit Ups: {{ sit_ups_today }}</h5>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Time</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sit_up in sit_ups %}
+                    <tr>
+                        <th scope="row">{{ sit_up.amount }}</th>
+                        <td>{{ sit_up.done_on|date:"g:i a" }}</td>
+                        <td>
+                            <a href="{% url 'delete_workout' sit_up.id %}"><i class="far fa-trash-alt"></i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4 col-12">
+            <h5>Todays Squats: {{ squats_today }}</h5>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Time</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for squat in squats %}
+                    <tr>
+                        <th scope="row">{{ squat.amount }}</th>
+                        <td>{{ squat.done_on|date:"g:i a" }}</td>
+                        <td>
+                            <a href="{% url 'delete_workout' squat.id %}"><i class="far fa-trash-alt"></i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </section>
 
+
+{% endblock %} {% block script_js %}
+<script type="text/javascript" src="{% static 'js/workout.js' %}"></script>
 {% endblock %}

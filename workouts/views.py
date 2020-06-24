@@ -7,49 +7,42 @@ from django.contrib import messages
 
 # Create your views here.
 
+
 @login_required
 def workout_home(request):
     profile = request.user.profile
-    squats = Squat.objects.filter(done_by=profile).order_by("-done_on")
     t = date.today()
-    squats_today = []
-    todays_total = 0
-    for s in squats:
-        if s.done_on.date() == t:
-            todays_total += s.amount
-            squats_today.append(s)
     exercises = Exercise.objects.order_by("name")
-    print(exercises)
+    squats = []
+    squats_today = 0
+    press_ups = []
+    press_ups_today = 0
+    sit_ups = []
+    sit_ups_today = 0
+    workouts = Workout.objects.filter(done_by=profile).order_by("-done_on")
+    for w in workouts:
+        if w.workout_type.name == "Squat" and w.done_on.date() == t:
+            squats_today += w.amount
+            squats.append(w)
+        elif w.workout_type.name == "Press Up" and w.done_on.date() == t:
+            press_ups_today += w.amount
+            press_ups.append(w)
+        elif w.workout_type.name == "Sit Up" and w.done_on.date() == t:
+            sit_ups_today += w.amount
+            sit_ups.append(w)
     return render(
         request,
         "workout_home.html",
-        {"squats": squats, "squats_today": squats_today, "todays_total": todays_total,
-        "exercises": exercises},
+        {
+            "exercises": exercises,
+            "squats": squats,
+            "squats_today": squats_today,
+            "press_ups": press_ups,
+            "press_ups_today": press_ups_today,
+            "sit_ups": sit_ups,
+            "sit_ups_today": sit_ups_today,
+        },
     )
-
-
-@login_required
-def add_squat(request):
-    if request.method == "POST":
-        squat_form = SquatForm()
-        form = squat_form.save(commit=False)
-        form.amount = int(request.POST.get("amount"))
-        form.done_by = request.user.profile
-        form.save()
-        messages.error(request, f"{form.done_by} Added {form.amount} Squats", extra_tags="alert")
-        return redirect("workout_home")
-
-
-@login_required
-def delete_squat(request, pk):
-    this_squat = get_object_or_404(Squat, pk=pk)
-    if this_squat.done_by == request.user.profile:
-        this_squat.delete()
-        messages.error(request, f"Deleted {this_squat.amount} Squats", extra_tags="alert")
-        return redirect(reverse("workout_home"))
-    else:
-        messages.error(request, f"Not Your Squats!", extra_tags="alert")
-        return redirect("workout_home")
 
 
 @login_required
@@ -61,5 +54,23 @@ def add_workout(request):
         form.workout_type = get_object_or_404(Exercise, name=request.POST.get("commit"))
         form.done_by = request.user.profile
         form.save()
-        messages.error(request, f"{form.done_by} Added {form.amount} {form.workout_type}s", extra_tags="alert")
+        messages.error(
+            request,
+            f"{form.done_by} Added {form.amount} {form.workout_type}s",
+            extra_tags="alert",
+        )
+        return redirect("workout_home")
+
+
+@login_required
+def delete_workout(request, pk):
+    this_workout = get_object_or_404(Workout, pk=pk)
+    if this_workout.done_by == request.user.profile:
+        this_workout.delete()
+        messages.error(
+            request, f"Deleted {this_workout.amount} {this_workout.workout_type}", extra_tags="alert"
+        )
+        return redirect(reverse("workout_home"))
+    else:
+        messages.error(request, f"Not Your Squats!", extra_tags="alert")
         return redirect("workout_home")

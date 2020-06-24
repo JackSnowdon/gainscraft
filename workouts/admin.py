@@ -3,6 +3,5 @@ from .models import *
 
 # Register your models here.
 
-admin.site.register(Squat)
 admin.site.register(Exercise)
 admin.site.register(Workout)
