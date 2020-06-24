@@ -18,10 +18,13 @@ def workout_home(request):
         if s.done_on.date() == t:
             todays_total += s.amount
             squats_today.append(s)
+    exercises = Exercise.objects.order_by("name")
+    print(exercises)
     return render(
         request,
         "workout_home.html",
-        {"squats": squats, "squats_today": squats_today, "todays_total": todays_total},
+        {"squats": squats, "squats_today": squats_today, "todays_total": todays_total,
+        "exercises": exercises},
     )
 
 
@@ -46,4 +49,17 @@ def delete_squat(request, pk):
         return redirect(reverse("workout_home"))
     else:
         messages.error(request, f"Not Your Squats!", extra_tags="alert")
+        return redirect("workout_home")
+
+
+@login_required
+def add_workout(request):
+    if request.method == "POST":
+        workout_form = WorkoutForm()
+        form = workout_form.save(commit=False)
+        form.amount = int(request.POST.get("amount"))
+        form.workout_type = get_object_or_404(Exercise, name=request.POST.get("commit"))
+        form.done_by = request.user.profile
+        form.save()
+        messages.error(request, f"{form.done_by} Added {form.amount} {form.workout_type}s", extra_tags="alert")
         return redirect("workout_home")
