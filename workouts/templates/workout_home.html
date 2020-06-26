@@ -27,10 +27,11 @@
     </div>
 </section>
 
-<section class="results-panel mb-5">
+<section class="results-panel">
     <div class="row text-center">
         <div class="col-md-4 col-12">
             <h5>Press Ups: {{ press_ups_today }}</h5>
+            <p>Yesterdays Total: {{ press_ups_yesterday }}</p>
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -54,6 +55,7 @@
         </div>
         <div class="col-md-4 col-12">
             <h5>Todays Sit Ups: {{ sit_ups_today }}</h5>
+            <p>Yesterdays Total: {{ sit_ups_yesterday }}</p>
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -77,6 +79,7 @@
         </div>
         <div class="col-md-4 col-12">
             <h5>Todays Squats: {{ squats_today }}</h5>
+            <p>Yesterdays Total: {{ squats_yesterday }}</p>
             <table class="table table-hover">
                 <thead>
                     <tr>

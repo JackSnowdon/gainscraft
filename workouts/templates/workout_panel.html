@@ -1,5 +1,13 @@
 {% extends 'base.html' %} {% load static %} {% block page_title %} | {{ user.profile }}'s' Workout Panel {% endblock %} {% block content %}
 
+<section class="button-nav">
+    <div class="row mb-5">
+        <div class="col-12">
+            <a href="{% url 'workout_home' %}" role="button" class="btn btn-warning" aria-disabled="false">Back</a>
+        </div>
+    </div>
+</section>
+
 <section class="header">
     <div class="row mb-5 text-center">
         <div class="col-12">

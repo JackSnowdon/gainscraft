@@ -12,6 +12,7 @@ from django.contrib import messages
 def workout_home(request):
     profile = request.user.profile
     t = date.today()
+    y = t - timedelta(days=1)
     exercises = Exercise.objects.order_by("name")
     squats = []
     squats_today = 0
@@ -19,6 +20,9 @@ def workout_home(request):
     press_ups_today = 0
     sit_ups = []
     sit_ups_today = 0
+    squats_yesterday = 0
+    press_ups_yesterday = 0
+    sit_ups_yesterday = 0
     workouts = Workout.objects.filter(done_by=profile).order_by("-done_on")
     for w in workouts:
         if w.workout_type.name == "Squat" and w.done_on.date() == t:
@@ -30,6 +34,12 @@ def workout_home(request):
         elif w.workout_type.name == "Sit Up" and w.done_on.date() == t:
             sit_ups_today += w.amount
             sit_ups.append(w)
+        elif w.workout_type.name == "Press Up" and w.done_on.date() == y:
+            press_ups_yesterday += w.amount
+        elif w.workout_type.name == "Sit Up" and w.done_on.date() == y:
+            sit_ups_yesterday += w.amount
+        elif w.workout_type.name == "Press Up" and w.done_on.date() == y:
+            press_ups_yesterday += w.amount
     return render(
         request,
         "workout_home.html",
@@ -41,6 +51,9 @@ def workout_home(request):
             "press_ups_today": press_ups_today,
             "sit_ups": sit_ups,
             "sit_ups_today": sit_ups_today,
+            "squats_yesterday": squats_yesterday,
+            "press_ups_yesterday": press_ups_yesterday,
+            "sit_ups_yesterday": sit_ups_yesterday,
         },
     )
 
@@ -86,5 +99,11 @@ def delete_workout(request, pk):
 @login_required
 def workout_panel(request):
     profile = request.user.profile
+    t = date.today()
+    y = t - timedelta(days=1)
+    this_week = t - timedelta(days=7)
     workouts = Workout.objects.filter(done_by=profile).order_by("-done_on")
+    for w in workouts:
+        if w.done_on.date() >= this_week:
+            print(w)
     return render(request, "workout_panel.html")
