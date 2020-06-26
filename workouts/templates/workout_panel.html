@@ -1,0 +1,14 @@
+{% extends 'base.html' %} {% load static %} {% block page_title %} | {{ user.profile }}'s' Workout Panel {% endblock %} {% block content %}
+
+<section class="header">
+    <div class="row mb-5 text-center">
+        <div class="col-12">
+            <h1>{{ user.profile }}'s Workout Panel</h1>
+        </div>
+        <div class="col-12">
+            <p>It is {% now "g:i a D M Y" %} </p>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

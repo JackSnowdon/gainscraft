@@ -82,3 +82,9 @@ def delete_workout(request, pk):
         messages.error(request, f"Not Your Squats!", extra_tags="alert")
         return redirect("workout_home")
 
+
+@login_required
+def workout_panel(request):
+    profile = request.user.profile
+    workouts = Workout.objects.filter(done_by=profile).order_by("-done_on")
+    return render(request, "workout_panel.html")
