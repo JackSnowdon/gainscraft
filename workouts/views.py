@@ -8,23 +8,6 @@ from django.contrib import messages
 # Create your views here.
 
 
-def return_single_day(data, excerise, time):
-    """
-    Takes data(django filter set)
-    excerise as string(Squat, Press Up, Sit Up)
-    time int(0 = today, 1 = yesterday)
-
-    returns filtered data set and daily amount
-    """
-    t = date.today()
-    y = t - timedelta(days=time)
-    total_amount = 0
-    exce = data.filter(workout_type__name=excerise, done_on__date=y)
-    for e in exce:
-        total_amount += e.amount
-    return exce, total_amount
-
-
 @login_required
 def workout_home(request):
     profile = request.user.profile
@@ -95,11 +78,47 @@ def delete_workout(request, pk):
 @login_required
 def workout_panel(request):
     profile = request.user.profile
-    t = date.today()
-    y = t - timedelta(days=1)
-    this_week = t - timedelta(days=7)
     workouts = Workout.objects.filter(done_by=profile).order_by("-done_on")
-    for w in workouts:
-        if w.done_on.date() >= this_week:
-            print(w)
+    lw_squats, lw_squats_total = return_range_of_dates(workouts, "Squat", 0, 7)
+    lw_situps, lw_situps_total = return_range_of_dates(workouts, "Sit Up", 0, 7)
+    lw_press_ups, lw_pressups_total = return_range_of_dates(workouts, "Press Up", 0, 7)
     return render(request, "workout_panel.html")
+
+
+# Helper Functions 
+
+
+def return_single_day(data, excerise, time):
+    """
+    Takes data(django filter set)
+    excerise as string(Squat, Press Up, Sit Up)
+    time int(0 = today, 1 = yesterday)
+
+    returns filtered data set and daily amount
+    """
+    t = date.today()
+    y = t - timedelta(days=time)
+    total_amount = 0
+    exce = data.filter(workout_type__name=excerise, done_on__date=y)
+    for e in exce:
+        total_amount += e.amount
+    return exce, total_amount
+
+
+def return_range_of_dates(data, excerise, start, end):
+    """
+    Takes data(django filter set)
+    excerise as string(Squat, Press Up, Sit Up)
+    time int(0 = today, 1 = yesterday)
+
+    returns filtered data set and daily amount
+    """
+    t = date.today()
+    start_date = t - timedelta(days=start - 1)
+    end_date = start_date - timedelta(days=end + 1)
+    amount = 0
+    dataset = data.filter(workout_type__name=excerise, done_on__range=(end_date, start_date))
+    for d in dataset:
+        amount += d.amount
+    return dataset, amount
+    
