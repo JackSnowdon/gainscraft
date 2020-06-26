@@ -79,10 +79,21 @@ def delete_workout(request, pk):
 def workout_panel(request):
     profile = request.user.profile
     workouts = Workout.objects.filter(done_by=profile).order_by("-done_on")
-    lw_squats, lw_squats_total = return_range_of_dates(workouts, "Squat", 0, 7)
-    lw_situps, lw_situps_total = return_range_of_dates(workouts, "Sit Up", 0, 7)
-    lw_press_ups, lw_pressups_total = return_range_of_dates(workouts, "Press Up", 0, 7)
-    return render(request, "workout_panel.html")
+    tw_squats, tw_squats_total = return_range_of_dates(workouts, "Squat", 0, 7)
+    tw_situps, tw_situps_total = return_range_of_dates(workouts, "Sit Up", 0, 7)
+    tw_pressups, tw_pressups_total = return_range_of_dates(workouts, "Press Up", 0, 7)
+    t = date.today()
+    start_of_tw = t - timedelta(days=7)
+    return render(request, "workout_panel.html", {
+            "tw_squats": tw_squats,
+            "tw_squats_total": tw_squats_total,
+            "tw_situps": tw_situps,
+            "tw_situps_total": tw_situps_total,
+            "tw_pressups": tw_pressups,
+            "tw_pressups_total": tw_pressups_total,
+            "t": t,
+            "start_of_tw": start_of_tw,
+        })
 
 
 # Helper Functions 
@@ -109,12 +120,13 @@ def return_range_of_dates(data, excerise, start, end):
     """
     Takes data(django filter set)
     excerise as string(Squat, Press Up, Sit Up)
-    time int(0 = today, 1 = yesterday)
+    start int(-1)
+    end (int+1)
 
     returns filtered data set and daily amount
     """
     t = date.today()
-    start_date = t - timedelta(days=start - 1)
+    start_date = t - timedelta(days=start-1)
     end_date = start_date - timedelta(days=end + 1)
     amount = 0
     dataset = data.filter(workout_type__name=excerise, done_on__range=(end_date, start_date))
