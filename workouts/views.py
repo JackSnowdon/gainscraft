@@ -8,38 +8,34 @@ from django.contrib import messages
 # Create your views here.
 
 
+def return_single_day(data, excerise, time):
+    """
+    Takes data(django filter set)
+    excerise as string(Squat, Press Up, Sit Up)
+    time int(0 = today, 1 = yesterday)
+
+    returns filtered data set and daily amount
+    """
+    t = date.today()
+    y = t - timedelta(days=time)
+    total_amount = 0
+    exce = data.filter(workout_type__name=excerise, done_on__date=y)
+    for e in exce:
+        total_amount += e.amount
+    return exce, total_amount
+
+
 @login_required
 def workout_home(request):
     profile = request.user.profile
-    t = date.today()
-    y = t - timedelta(days=1)
     exercises = Exercise.objects.order_by("name")
-    squats = []
-    squats_today = 0
-    press_ups = []
-    press_ups_today = 0
-    sit_ups = []
-    sit_ups_today = 0
-    squats_yesterday = 0
-    press_ups_yesterday = 0
-    sit_ups_yesterday = 0
     workouts = Workout.objects.filter(done_by=profile).order_by("-done_on")
-    for w in workouts:
-        if w.workout_type.name == "Squat" and w.done_on.date() == t:
-            squats_today += w.amount
-            squats.append(w)
-        elif w.workout_type.name == "Press Up" and w.done_on.date() == t:
-            press_ups_today += w.amount
-            press_ups.append(w)
-        elif w.workout_type.name == "Sit Up" and w.done_on.date() == t:
-            sit_ups_today += w.amount
-            sit_ups.append(w)
-        elif w.workout_type.name == "Press Up" and w.done_on.date() == y:
-            press_ups_yesterday += w.amount
-        elif w.workout_type.name == "Sit Up" and w.done_on.date() == y:
-            sit_ups_yesterday += w.amount
-        elif w.workout_type.name == "Press Up" and w.done_on.date() == y:
-            press_ups_yesterday += w.amount
+    squats, squats_today = return_single_day(workouts, "Squat", 0)
+    press_ups, press_ups_today = return_single_day(workouts, "Press Up", 0)
+    sit_ups, sit_ups_today = return_single_day(workouts, "Sit Up", 0)
+    _, squats_yesterday = return_single_day(workouts, "Squat", 1)
+    _, press_ups_yesterday = return_single_day(workouts, "Press Up", 1)
+    _, sit_ups_yesterday = return_single_day(workouts, "Sit Up", 1)
     return render(
         request,
         "workout_home.html",
