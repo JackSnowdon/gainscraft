@@ -102,11 +102,32 @@ def workout_panel(request):
 @login_required
 def get_single_date(request):
     profile = request.user.profile
-    workouts = Workout.objects.filter(done_by=profile).order_by("-done_on")
-    
-
-    return redirect("workout_panel")
-
+    single_date_form = SingleDateForm()
+    if request.method == "POST":
+        d = request.POST.get("date")
+        cleaned_date = datetime.strptime(d, "%d/%m/%Y").strftime("%Y-%m-%d")
+        workouts = Workout.objects.filter(done_by=profile, done_on__date=cleaned_date).order_by("-done_on")
+        check_date = datetime.strptime(d, "%d/%m/%Y").date()
+        t = date.today()
+        delta = t - check_date
+        amount = delta.days
+        squats, squats_today = return_single_day(workouts, "Squat", amount)
+        press_ups, press_ups_today = return_single_day(workouts, "Press Up", amount)
+        sit_ups, sit_ups_today = return_single_day(workouts, "Sit Up", amount)
+        return render(
+        request,
+        "single_date.html",
+        {
+            "squats": squats,
+            "squats_today": squats_today,
+            "press_ups": press_ups,
+            "press_ups_today": press_ups_today,
+            "sit_ups": sit_ups,
+            "sit_ups_today": sit_ups_today,
+            "single_date_form": single_date_form,
+            "d": d
+        },
+    )
 
 
 # Helper Functions 

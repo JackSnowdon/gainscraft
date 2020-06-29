@@ -3,7 +3,7 @@
 <section class="button-nav">
     <div class="row mb-5">
         <div class="col-12">
-            <a href="{% url 'workout_home' %}" role="button" class="btn btn-warning" aria-disabled="false">Back</a>
+            <a href="{% url 'workout_panel' %}" role="button" class="btn btn-warning" aria-disabled="false">Back</a>
         </div>
     </div>
 </section>
@@ -11,8 +11,6 @@
 <section class="header">
     <div class="row mb-3 text-center">
         <div class="col-12">
-            <h1>{{ user.profile }}'s Workout Panel</h1>
-
             <form role="form" method="post" id="get-single-date" action="{% url 'get_single_date' %}">
                 {% csrf_token %}
                 <div class="input-group date mb-2" id="singledatepicker" data-target-input="nearest">
@@ -23,7 +21,6 @@
                 </div>
                 <input type="submit" class="btn btn-success" value="Submit">
             </form>
-
         </div>
     </div>
 </section>
@@ -31,11 +28,11 @@
 <section class="results-panel">
     <div class="row text-center">
         <div class="col-12 text-center mb-2">
-            <h4>Last 7 Days: <span class="small"> {{ start_of_tw }} - {{ t }}</span></h4>
+            <h4>Single Date: <span class="small">{{ d }}</span></h4>
             <hr>
         </div>
         <div class="col-md-4 col-12">
-            <h5>Press Ups: {{ tw_pressups_total }}</h5>
+            <h5>Press Ups: {{ press_ups_today }}</h5>
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -45,10 +42,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for press_up in tw_pressups %}
+                    {% for press_up in press_ups %}
                     <tr>
                         <th scope="row">{{ press_up.amount }}</th>
-                        <td>{{ press_up.done_on|date:"g:i a d/m" }}</td>
+                        <td>{{ press_up.done_on|date:"g:i a" }}</td>
                         <td>
                             <a href="{% url 'delete_workout' press_up.id %}"><i class="far fa-trash-alt"></i></a>
                         </td>
@@ -58,7 +55,7 @@
             </table>
         </div>
         <div class="col-md-4 col-12">
-            <h5>Sit Ups: {{ tw_situps_total }}</h5>
+            <h5>Todays Sit Ups: {{ sit_ups_today }}</h5>
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -68,10 +65,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for sit_up in tw_situps %}
+                    {% for sit_up in sit_ups %}
                     <tr>
                         <th scope="row">{{ sit_up.amount }}</th>
-                        <td>{{ sit_up.done_on|date:"g:i a d/m" }}</td>
+                        <td>{{ sit_up.done_on|date:"g:i a" }}</td>
                         <td>
                             <a href="{% url 'delete_workout' sit_up.id %}"><i class="far fa-trash-alt"></i></a>
                         </td>
@@ -81,7 +78,7 @@
             </table>
         </div>
         <div class="col-md-4 col-12">
-            <h5>Squats: {{ tw_squats_total }}</h5>
+            <h5>Todays Squats: {{ squats_today }}</h5>
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -91,10 +88,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for squat in tw_squats %}
+                    {% for squat in squats %}
                     <tr>
                         <th scope="row">{{ squat.amount }}</th>
-                        <td>{{ squat.done_on|date:"g:i a d/m" }}</td>
+                        <td>{{ squat.done_on|date:"g:i a" }}</td>
                         <td>
                             <a href="{% url 'delete_workout' squat.id %}"><i class="far fa-trash-alt"></i></a>
                         </td>
@@ -104,9 +101,9 @@
             </table>
         </div>
     </div>
+    </div>
 </section>
 
 {% endblock %} {% block script_js %}
 <script type="text/javascript" src="{% static 'js/datepicker.js' %}"></script>
-
 {% endblock %}

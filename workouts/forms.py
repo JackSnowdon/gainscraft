@@ -10,7 +10,7 @@ class WorkoutForm(forms.ModelForm):
 
 class SingleDateForm(forms.Form):
     date = forms.DateTimeField(
-        input_formats=['%d/%m/%Y %H:%M'],
+        input_formats=['%d/%m/%Y'],
         widget=forms.DateTimeInput(attrs={
             'class': 'form-control datetimepicker-input',
             'data-target': '#singledatepicker'
