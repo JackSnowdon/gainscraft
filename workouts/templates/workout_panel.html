@@ -12,6 +12,18 @@
     <div class="row mb-3 text-center">
         <div class="col-12">
             <h1>{{ user.profile }}'s Workout Panel</h1>
+
+            <form role="form" method="post" id="get-single-date" action="{% url 'get_single_date' %}">
+                {% csrf_token %}
+                <div class="input-group date mb-2" id="singledatepicker" data-target-input="nearest">
+                    {{ single_date_form.date }}
+                    <div class="input-group-append" data-target="#singledatepicker" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
+                <input type="submit" class="btn btn-success" value="Submit">
+            </form>
+
         </div>
     </div>
 </section>
@@ -19,7 +31,7 @@
 <section class="results-panel">
     <div class="row text-center">
         <div class="col-12 text-center mb-2">
-            <h4>This Week: <span class="small"> {{ start_of_tw }} - {{ t }}</span></h4>
+            <h4>Last 7 Days: <span class="small"> {{ start_of_tw }} - {{ t }}</span></h4>
             <hr>
         </div>
         <div class="col-md-4 col-12">
@@ -94,4 +106,6 @@
     </div>
 </section>
 
+{% endblock %} {% block script_js %}
+<script type="text/javascript" src="{% static 'js/datepicker.js' %}"></script>
 {% endblock %}

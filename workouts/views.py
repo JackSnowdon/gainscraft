@@ -84,6 +84,7 @@ def workout_panel(request):
     tw_pressups, tw_pressups_total = return_range_of_dates(workouts, "Press Up", 0, 7)
     t = date.today()
     start_of_tw = t - timedelta(days=7)
+    single_date_form = SingleDateForm()
     return render(request, "workout_panel.html", {
             "tw_squats": tw_squats,
             "tw_squats_total": tw_squats_total,
@@ -93,7 +94,19 @@ def workout_panel(request):
             "tw_pressups_total": tw_pressups_total,
             "t": t,
             "start_of_tw": start_of_tw,
+            "single_date_form": single_date_form,
         })
+
+
+
+@login_required
+def get_single_date(request):
+    profile = request.user.profile
+    workouts = Workout.objects.filter(done_by=profile).order_by("-done_on")
+    
+
+    return redirect("workout_panel")
+
 
 
 # Helper Functions 
@@ -121,13 +134,13 @@ def return_range_of_dates(data, excerise, start, end):
     Takes data(django filter set)
     excerise as string(Squat, Press Up, Sit Up)
     start int(-1)
-    end (int+1)
+    end int(+1)
 
     returns filtered data set and daily amount
     """
     t = date.today()
     start_date = t - timedelta(days=start-1)
-    end_date = start_date - timedelta(days=end + 1)
+    end_date = start_date - timedelta(days=end+1)
     amount = 0
     dataset = data.filter(workout_type__name=excerise, done_on__range=(end_date, start_date))
     for d in dataset:
