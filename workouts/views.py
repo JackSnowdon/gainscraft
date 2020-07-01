@@ -104,9 +104,8 @@ def get_single_date(request):
     profile = request.user.profile
     single_date_form = SingleDateForm()
     if request.method == "POST":
+        workouts = Workout.objects.filter(done_by=profile).order_by("-done_on")
         d = request.POST.get("date")
-        cleaned_date = datetime.strptime(d, "%d/%m/%Y").strftime("%Y-%m-%d")
-        workouts = Workout.objects.filter(done_by=profile, done_on__date=cleaned_date).order_by("-done_on")
         check_date = datetime.strptime(d, "%d/%m/%Y").date()
         t = date.today()
         delta = t - check_date
