@@ -71,7 +71,7 @@ def delete_workout(request, pk):
         )
         return redirect(reverse("workout_home"))
     else:
-        messages.error(request, f"Not Your Squats!", extra_tags="alert")
+        messages.error(request, f"Not Your Workout!", extra_tags="alert")
         return redirect("workout_home")
 
 

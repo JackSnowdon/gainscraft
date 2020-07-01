@@ -4,9 +4,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import *
 from workouts.forms import SingleDateForm
+from workouts.models import Workout
 from accounts.forms import UserLoginForm, UserRegistrationForm
 
 # Create your views here.
+
 
 @login_required
 def logout(request):
@@ -77,8 +79,21 @@ def user_profile(request):
     user = User.objects.get(email=request.user.email)
     profile = user.profile
     single_date_form = SingleDateForm()
+    workouts = Workout.objects.filter(done_by=profile).order_by("-done_on")
+    squats, squats_lifetime = get_lifetime_amount(workouts, "Squat")
+    press_ups, press_ups_lifetime = get_lifetime_amount(workouts, "Press Up")
+    sit_ups, sit_ups_lifetime = get_lifetime_amount(workouts, "Sit Up")
     return render(
-        request, "profile.html", {"user": user, "profile": profile, "single_date_form": single_date_form}
+        request,
+        "profile.html",
+        {
+            "user": user,
+            "profile": profile,
+            "single_date_form": single_date_form,
+            "squats_lifetime": squats_lifetime,
+            "press_ups_lifetime": press_ups_lifetime,
+            "sit_ups_lifetime": sit_ups_lifetime,
+        },
     )
 
 
@@ -92,7 +107,7 @@ def admin_panel(request):
             request, "You Don't Have The Required Permissions", extra_tags="alert"
         )
         return redirect("world_index")
-        
+
 
 @login_required
 def change_staff_access(request, pk):
@@ -114,3 +129,14 @@ def change_staff_access(request, pk):
             request, "You Don't Have The Required Permissions", extra_tags="alert"
         )
         return redirect("world_index")
+
+
+# Helper Functions
+
+
+def get_lifetime_amount(data, excerise):
+    amount = 0
+    dataset = data.filter(workout_type__name=excerise)
+    for d in dataset:
+        amount += d.amount
+    return dataset, amount
