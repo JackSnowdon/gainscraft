@@ -7,5 +7,4 @@ $(document).ready(function() {
             format: 'DD/MM/YYYY',
         });
     });
-
 });

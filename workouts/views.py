@@ -79,11 +79,11 @@ def delete_workout(request, pk):
 def workout_panel(request):
     profile = request.user.profile
     workouts = Workout.objects.filter(done_by=profile).order_by("-done_on")
-    tw_squats, tw_squats_total = return_range_of_dates(workouts, "Squat", 0, 7)
-    tw_situps, tw_situps_total = return_range_of_dates(workouts, "Sit Up", 0, 7)
-    tw_pressups, tw_pressups_total = return_range_of_dates(workouts, "Press Up", 0, 7)
+    tw_squats, tw_squats_total = return_range_of_dates(workouts, "Squat", 0, 6)
+    tw_situps, tw_situps_total = return_range_of_dates(workouts, "Sit Up", 0, 6)
+    tw_pressups, tw_pressups_total = return_range_of_dates(workouts, "Press Up", 0, 6)
     t = date.today()
-    start_of_tw = t - timedelta(days=7)
+    start_of_tw = t - timedelta(days=6)
     single_date_form = SingleDateForm()
     return render(request, "workout_panel.html", {
             "tw_squats": tw_squats,
