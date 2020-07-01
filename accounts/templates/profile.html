@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% block page_title %} | {{ profile }}'s Profile{% endblock %} {% block content %}
+{% extends 'base.html' %} {% load static %} {% block page_title %} | {{ profile }}'s Profile{% endblock %} {% block content %}
 
 <div class="row">
     <div class="col-12">
@@ -6,10 +6,30 @@
     </div>
 </div>
 
+<section class="header">
+    <div class="row mb-3 text-center">
+        <div class="col-12">
+            <form role="form" method="post" id="get-single-date" action="{% url 'get_single_date' %}">
+                {% csrf_token %}
+                <div class="input-group date mb-2" id="singledatepicker" data-target-input="nearest">
+                    {{ single_date_form.date }}
+                    <div class="input-group-append" data-target="#singledatepicker" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
+                <br>
+                <input type="submit" class="btn btn-success" value="Search Day">
+            </form>
+        </div>
+    </div>
+</section>
+
 {% if user.profile.staff_access %}
 <div class="row">
     <div class="col-12 text-center mb-3">
         <a href="{% url 'admin_panel' %}" role="button" class="btn btn-success" id="admin-panel" aria-disabled="false">Admin Panel</a>
     </div>
 </div>
-{% endif %} {% endblock %}
+{% endif %} {% endblock %} {% block script_js %}
+<script type="text/javascript" src="{% static 'js/datepicker.js' %}"></script>
+{% endblock %}

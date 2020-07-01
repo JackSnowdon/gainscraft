@@ -76,3 +76,19 @@ tr {
 .fa-trash-alt:hover {
     color: black;
 }
+
+#singledatepicker,
+#workout-amount {
+    width: 25%;
+    display: inline-flex;
+}
+
+
+/* Media Queires */
+
+@media (max-width: 545px) {
+    #singledatepicker,
+    #workout-amount {
+        width: 75%;
+    }
+}

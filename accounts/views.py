@@ -3,6 +3,7 @@ from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import *
+from workouts.forms import SingleDateForm
 from accounts.forms import UserLoginForm, UserRegistrationForm
 
 # Create your views here.
@@ -75,8 +76,9 @@ def user_profile(request):
     """ Display user profile """
     user = User.objects.get(email=request.user.email)
     profile = user.profile
+    single_date_form = SingleDateForm()
     return render(
-        request, "profile.html", {"user": user, "profile": profile}
+        request, "profile.html", {"user": user, "profile": profile, "single_date_form": single_date_form}
     )
 
 

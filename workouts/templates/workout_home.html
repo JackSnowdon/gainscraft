@@ -1,7 +1,7 @@
 {% extends 'base.html' %} {% load static %} {% block page_title %} | {{ user.profile }}'s' Workout Home {% endblock %} {% block content %}
 
 <section class="header">
-    <div class="row mb-5 text-center">
+    <div class="row mb-3 text-center">
         <div class="col-12">
             <h1>Workout Home</h1>
         </div>
@@ -12,15 +12,15 @@
     </div>
 </section>
 
-<section class="workout-panel mb-5">
+<section class="workout-panel mb-2">
     <div class="row">
         <div class="col-12 text-center">
             <form role="form" method="post" id="add-workout-form" action="{% url 'add_workout' %}">
                 <div class="form-group">
                     {% csrf_token %}
-                    <input type="number" id="workout-amount" name="amount" min="1" class="mb-2">
+                    <input type="number" id="workout-amount" name="amount" min="1" class="mb-2 form-control">
                     <br> {% for e in exercises %}
-                    <input class="btn btn-success" id="commit-{{e.name}}" name="commit" type="submit" value="{{e.name}}"> {% endfor %}
+                    <input class="btn btn-success" id="commit-{{ e.name|cut:' ' }}" name="commit" type="submit" value="{{e.name}}"> {% endfor %}
                 </div>
             </form>
         </div>
