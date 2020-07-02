@@ -121,9 +121,9 @@
 <!-- Chart Vars -->
 
 <script>
-    var a = "{{ tw_pressups_total }}";
-    var b = "{{ tw_situps_total }}";
-    var c = "{{ tw_squats_total }}";
+    var pressups = parseInt("{{ tw_pressups_total }}");
+    var situps = parseInt("{{ tw_situps_total }}");
+    var squats = parseInt("{{ tw_squats_total }}");
     var chartData = {
         "type": "bar",
         "background-color": "#D9E3C4",
@@ -136,9 +136,9 @@
         },
         "series": [{
             "values": [
-                a,
-                b,
-                c,
+                pressups,
+                situps,
+                squats,
             ]
         }],
         "plot": {
