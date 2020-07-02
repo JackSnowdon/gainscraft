@@ -105,6 +105,37 @@
     </div>
 </section>
 
+<section class="results-chart">
+    <div class="row">
+        <div class="col-12">
+            <div id="weeklyChart"></div>
+        </div>
+    </div>
+</section>
+
 {% endblock %} {% block script_js %}
+<script src="https://cdn.zingchart.com/zingchart.min.js"></script>
 <script type="text/javascript" src="{% static 'js/datepicker.js' %}"></script>
+
+<!-- Chart Vars -->
+
+<script>
+    var chartData = {
+        "type": "bar",
+        "scale-x": {
+            "values": [
+                "Press Ups",
+                "Sit Ups",
+                "Squats",
+            ]
+        }
+    }
+
+
+    zingchart.render({
+        id: "weeklyChart",
+        data: chartData,
+    });
+</script>
+
 {% endblock %}
