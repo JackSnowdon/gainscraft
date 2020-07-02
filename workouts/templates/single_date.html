@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% load static %} {% block page_title %} | {{ user.profile }}'s' Workout Panel {% endblock %} {% block content %}
+{% extends 'base.html' %} {% load static %} {% block page_title %} | {{ user.profile }}'s {{ d }} {% endblock %} {% block content %}
 
 <section class="button-nav">
     <div class="row mb-5">
@@ -104,6 +104,57 @@
     </div>
 </section>
 
+<section class="results-chart">
+    <div class="row">
+        <div class="col-12">
+            <h3 class="text-center">{{ d }} Totals:</h3>
+            <div id="dailyChart"></div>
+        </div>
+    </div>
+</section>
+
 {% endblock %} {% block script_js %}
+<script src="https://cdn.zingchart.com/zingchart.min.js"></script>
 <script type="text/javascript" src="{% static 'js/datepicker.js' %}"></script>
+
+<!-- Chart Vars -->
+
+<script>
+    var pressups = parseInt("{{ press_ups_today }}");
+    var situps = parseInt("{{ sit_ups_today }}");
+    var squats = parseInt("{{ squats_today }}");
+    var chartData = {
+        "type": "bar3d",
+        "background-color": "#D9E3C4",
+        "scale-x": {
+            "values": [
+                "Press Ups",
+                "Sit Ups",
+                "Squats",
+            ]
+        },
+        "series": [{
+            "values": [
+                pressups,
+                situps,
+                squats,
+            ]
+        }],
+        "plot": {
+            "bars-space-left": 0.15,
+            "bars-space-right": 0.15,
+            "animation": {
+                "effect": "ANIMATION_SLIDE_BOTTOM",
+                "sequence": 0,
+                "speed": 1000,
+                "delay": 250,
+            }
+        },
+    }
+
+    zingchart.render({
+        id: "dailyChart",
+        data: chartData,
+    });
+</script>
 {% endblock %}

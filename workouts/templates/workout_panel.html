@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% load static %} {% block page_title %} | {{ user.profile }}'s' Workout Panel {% endblock %} {% block content %}
+{% extends 'base.html' %} {% load static %} {% block page_title %} | {{ user.profile }}'s Workout Panel {% endblock %} {% block content %}
 
 <section class="button-nav">
     <div class="row mb-5">
@@ -108,7 +108,7 @@
 <section class="results-chart">
     <div class="row">
         <div class="col-12">
-            <h3 class="text-center">Weekly Workouts</h3>
+            <h3 class="text-center">Weekly Workout Totals:</h3>
             <div id="weeklyChart"></div>
         </div>
     </div>
@@ -125,7 +125,7 @@
     var situps = parseInt("{{ tw_situps_total }}");
     var squats = parseInt("{{ tw_squats_total }}");
     var chartData = {
-        "type": "bar",
+        "type": "bar3d",
         "background-color": "#D9E3C4",
         "scale-x": {
             "values": [
