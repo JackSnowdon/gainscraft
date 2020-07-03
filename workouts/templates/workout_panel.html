@@ -30,7 +30,7 @@
 <section class="results-panel">
     <div class="row text-center">
         <div class="col-12 text-center mb-2">
-            <h4>Last 7 Days: <span class="small"> {{ start_of_tw }} - {{ t }}</span></h4>
+            <h4>Last {{ days }} Days: <span class="small"> {{ start_of_tw }} - {{ t }}</span></h4>
             <hr>
         </div>
         <div class="col-md-4 col-12">
@@ -108,8 +108,8 @@
 <section class="results-chart">
     <div class="row">
         <div class="col-12">
-            <h3 class="text-center">Weekly Workout Totals:</h3>
-            <div id="weeklyChart"></div>
+            <h3 class="text-center">Workout Totals:</h3>
+            <div id="panelChart"></div>
         </div>
     </div>
 </section>
@@ -174,7 +174,7 @@
     }
 
     zingchart.render({
-        id: "weeklyChart",
+        id: "panelChart",
         data: chartData,
     });
 </script>

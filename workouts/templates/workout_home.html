@@ -7,7 +7,12 @@
         </div>
         <div class="col-12">
             <p>It is {% now "g:i a D M Y" %} </p>
-            <a href="{% url 'workout_panel' %}" role="button" class="btn btn-success" aria-disabled="false">This Week</a>
+        </div>
+        <div class="col-6">
+            <a href="{% url 'workout_panel' 6 %}" role="button" class="btn btn-success" aria-disabled="false">Last 7 Days</a>
+        </div>
+        <div class="col-6">
+            <a href="{% url 'workout_panel' 29 %}" role="button" class="btn btn-success" aria-disabled="false">Last 30 Days</a>
         </div>
     </div>
 </section>
@@ -107,7 +112,4 @@
 
 {% endblock %} {% block script_js %}
 <script type="text/javascript" src="{% static 'js/workout.js' %}"></script>
-
-
-
 {% endblock %}
