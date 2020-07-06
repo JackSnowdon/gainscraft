@@ -86,6 +86,11 @@ def workout_panel(request, days):
     start_of_tw = t - timedelta(days=days)
     single_date_form = SingleDateForm()
     days += 1
+    day_base = t - start_of_tw
+    day_list = []
+    for i in range(day_base.days + 1):
+        day = start_of_tw + timedelta(days=i)
+        day_list.append(day)
     return render(request, "workout_panel.html", {
             "tw_squats": tw_squats,
             "tw_squats_total": tw_squats_total,
@@ -97,6 +102,7 @@ def workout_panel(request, days):
             "start_of_tw": start_of_tw,
             "single_date_form": single_date_form,
             "days": days,
+            "day_list": day_list,
         })
 
 
