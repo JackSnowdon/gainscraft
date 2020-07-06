@@ -149,8 +149,32 @@
 <!-- Chart Vars -->
 
 <script>
+    // Create dateList from django templating 
+    var dateList = []
+    "{% for day in day_list %}"
+    dateList.push("{{ day|date:'d/m' }}");
+    "{% endfor %}"
+
+    // Create Excerise List
+
+    var pressUpList = []
+    "{% for key, value in press_up_graph_info.items %}"
+    pressUpList.push(parseInt("{{ value }}"));
+    "{% endfor %}"
+
+    var sitUpList = []
+    "{% for key, value in sit_up_graph_info.items %}"
+    sitUpList.push(parseInt("{{ value }}"));
+    "{% endfor %}"
+
+    var squatList = []
+    "{% for key, value in squat_graph_info.items %}"
+    pressUpList.push(parseInt("{{ value }}"));
+    "{% endfor %}"
+
     var multiConfig = {
         type: 'bar',
+        "background-color": "#D9E3C4",
         title: {
             text: 'Multi Chart',
             fontSize: 24,
@@ -165,36 +189,30 @@
                 text: 'Dates'
             },
             // convert text on scale indices
-            labels: ["{% for day in day_list %} {{ day }}, {% endfor %}"]
-        },
-        scaleY: {
-            // scale label with unicode character
-            label: {
-                text: 'Temperature (°F)'
-            }
+            labels: dateList
         },
         plot: {
             animation: {
-                effect: 'ANIMATION_EXPAND_BOTTOM',
-                method: 'ANIMATION_STRONG_EASE_OUT',
-                sequence: 'ANIMATION_BY_NODE',
-                speed: 275,
+                "effect": "ANIMATION_SLIDE_BOTTOM",
+                "sequence": 0,
+                "speed": 2000,
+                "delay": 250,
             }
         },
         series: [{
             // plot 1 values, linear data
-            values: ["{% for key, value in press_up_graph_info.items %} {{ value }}, {% endfor %}"],
+            values: pressUpList,
             text: 'Press Up',
             backgroundColor: '#4d80a6'
         }, {
             // plot 2 values, linear data
-            values: [35, 42, 33, 49, 35, 47, 35],
-            text: 'Week 2',
+            values: sitUpList,
+            text: 'Sit Up',
             backgroundColor: '#70cfeb'
         }, {
             // plot 2 values, linear data
-            values: [15, 22, 13, 33, 44, 27, 31],
-            text: 'Week 3',
+            values: squatList,
+            text: 'Squat',
             backgroundColor: '#8ee9de'
         }]
     };
@@ -212,48 +230,48 @@
     var situps = parseInt("{{ tw_situps_total }}");
     var squats = parseInt("{{ tw_squats_total }}");
     var chartData = {
-        "type": "bar3d",
+        type: "bar3d",
         "background-color": "#D9E3C4",
         "3d-aspect": {
             "true3d": false
         },
-        "scale-x": {
+        scaleX: {
             "values": [
                 "Press Ups",
                 "Sit Ups",
                 "Squats",
             ]
         },
-        "series": [{
+        series: [{
             "values": [
                 pressups,
                 situps,
                 squats,
             ]
         }],
-        "plot": {
+        plot: {
             "bars-space-left": 0.15,
             "bars-space-right": 0.15,
-            "animation": {
-                "effect": "ANIMATION_SLIDE_BOTTOM",
-                "sequence": 0,
-                "speed": 1000,
-                "delay": 250,
+            animation: {
+                effect: "ANIMATION_SLIDE_BOTTOM",
+                sequence: 0,
+                speed: 1000,
+                delay: 250,
             },
-            "facets": {
-                "front": {
+            facets: {
+                front: {
                     "background-color": "#D8B679 #0fasBF"
                 },
-                "right": {
+                right: {
                     "background-color": "#D8B679 #0fasBF"
                 },
-                "left": {
+                left: {
                     "background-color": "#D8B679 #0fasBF"
                 },
-                "top": {
+                top: {
                     "background-color": "#D8B679"
                 },
-                "bottom": {
+                bottom: {
                     "background-color": "#D8B679"
                 }
             }
