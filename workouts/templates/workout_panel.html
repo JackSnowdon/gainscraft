@@ -107,9 +107,9 @@
 
 <section class="day-tests">
     <div class="row">
-        <div class="col-12">
-            {% for day in day_list %}
-            <p>{{ day }}</p>
+        <div class="col-6">
+            {% for key, value in graph_info.items %}
+            <p>{{ key }} {{ value }}</p>
             {% endfor %}
         </div>
     </div>
