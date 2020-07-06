@@ -105,6 +105,20 @@
     </div>
 </section>
 
+<section class="results-chart">
+    <div class="row">
+        <div class="col-12">
+            <h3 class="text-center">Workout Totals:</h3>
+            <div id="panelChart"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div id="multiChart"></div>
+        </div>
+    </div>
+</section>
+
 <section class="day-tests">
     <div class="row">
         <div class="col-4">
@@ -128,15 +142,6 @@
     </div>
 </section>
 
-<section class="results-chart">
-    <div class="row">
-        <div class="col-12">
-            <h3 class="text-center">Workout Totals:</h3>
-            <div id="panelChart"></div>
-        </div>
-    </div>
-</section>
-
 {% endblock %} {% block script_js %}
 <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
 <script type="text/javascript" src="{% static 'js/datepicker.js' %}"></script>
@@ -144,6 +149,65 @@
 <!-- Chart Vars -->
 
 <script>
+    var multiConfig = {
+        type: 'bar',
+        title: {
+            text: 'Multi Chart',
+            fontSize: 24,
+            color: '#5d7d9a'
+        },
+        legend: {
+            draggable: true,
+        },
+        scaleX: {
+            // set scale label
+            label: {
+                text: 'Dates'
+            },
+            // convert text on scale indices
+            labels: ["{% for day in day_list %} {{ day }}, {% endfor %}"]
+        },
+        scaleY: {
+            // scale label with unicode character
+            label: {
+                text: 'Temperature (°F)'
+            }
+        },
+        plot: {
+            animation: {
+                effect: 'ANIMATION_EXPAND_BOTTOM',
+                method: 'ANIMATION_STRONG_EASE_OUT',
+                sequence: 'ANIMATION_BY_NODE',
+                speed: 275,
+            }
+        },
+        series: [{
+            // plot 1 values, linear data
+            values: ["{% for key, value in press_up_graph_info.items %} {{ value }}, {% endfor %}"],
+            text: 'Press Up',
+            backgroundColor: '#4d80a6'
+        }, {
+            // plot 2 values, linear data
+            values: [35, 42, 33, 49, 35, 47, 35],
+            text: 'Week 2',
+            backgroundColor: '#70cfeb'
+        }, {
+            // plot 2 values, linear data
+            values: [15, 22, 13, 33, 44, 27, 31],
+            text: 'Week 3',
+            backgroundColor: '#8ee9de'
+        }]
+    };
+
+    zingchart.render({
+        id: 'multiChart',
+        data: multiConfig,
+    });
+
+
+    // Time Frame Totals
+
+
     var pressups = parseInt("{{ tw_pressups_total }}");
     var situps = parseInt("{{ tw_situps_total }}");
     var squats = parseInt("{{ tw_squats_total }}");

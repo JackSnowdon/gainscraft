@@ -104,6 +104,7 @@ def workout_panel(request, days):
             "squat_graph_info": squat_graph_info,
             "sit_up_graph_info": sit_up_graph_info,
             "press_up_graph_info": press_up_graph_info,
+            "day_list": day_list
         })
 
 
