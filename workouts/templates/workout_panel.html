@@ -106,38 +106,14 @@
 </section>
 
 <section class="results-chart">
-    <div class="row">
+    <div class="row mb-3">
         <div class="col-12">
-            <h3 class="text-center">Workout Totals:</h3>
             <div id="panelChart"></div>
         </div>
     </div>
     <div class="row">
         <div class="col-12">
             <div id="multiChart"></div>
-        </div>
-    </div>
-</section>
-
-<section class="day-tests">
-    <div class="row">
-        <div class="col-4">
-            <h5>Press Ups:</h5>
-            {% for key, value in press_up_graph_info.items %}
-            <p>{{ key }} {{ value }}</p>
-            {% endfor %}
-        </div>
-        <div class="col-4">
-            <h5>Sit Ups:</h5>
-            {% for key, value in sit_up_graph_info.items %}
-            <p>{{ key }} {{ value }}</p>
-            {% endfor %}
-        </div>
-        <div class="col-4">
-            <h5>Squats:</h5>
-            {% for key, value in squat_graph_info.items %}
-            <p>{{ key }} {{ value }}</p>
-            {% endfor %}
         </div>
     </div>
 </section>
@@ -149,6 +125,7 @@
 <!-- Chart Vars -->
 
 <script>
+    // Multi List 
     // Create dateList from django templating 
     var dateList = []
     "{% for day in day_list %}"
@@ -169,8 +146,13 @@
 
     var squatList = []
     "{% for key, value in squat_graph_info.items %}"
-    pressUpList.push(parseInt("{{ value }}"));
+    squatList.push(parseInt("{{ value }}"));
     "{% endfor %}"
+
+    console.log(dateList)
+    console.log(pressUpList)
+    console.log(sitUpList)
+    console.log(squatList)
 
     var multiConfig = {
         type: 'bar',
@@ -202,18 +184,18 @@
         series: [{
             // plot 1 values, linear data
             values: pressUpList,
-            text: 'Press Up',
-            backgroundColor: '#4d80a6'
+            text: 'Press Ups',
+            backgroundColor: '#4d80a6 #0fasBF'
         }, {
             // plot 2 values, linear data
             values: sitUpList,
-            text: 'Sit Up',
-            backgroundColor: '#70cfeb'
+            text: 'Sit Ups',
+            backgroundColor: '#70cfeb #0fasBF'
         }, {
             // plot 2 values, linear data
             values: squatList,
-            text: 'Squat',
-            backgroundColor: '#8ee9de'
+            text: 'Squats',
+            backgroundColor: '#8ee9de #0fasBF'
         }]
     };
 
@@ -223,6 +205,7 @@
     });
 
 
+    // Single List
     // Time Frame Totals
 
 
@@ -234,6 +217,11 @@
         "background-color": "#D9E3C4",
         "3d-aspect": {
             "true3d": false
+        },
+        title: {
+            text: 'Work Out Totals',
+            fontSize: 24,
+            color: '#5d7d9a'
         },
         scaleX: {
             "values": [
