@@ -86,11 +86,21 @@ def workout_panel(request, days):
     start_of_tw = t - timedelta(days=days)
     single_date_form = SingleDateForm()
     days += 1
-    day_base = t - start_of_tw
-    day_list = []
-    for i in range(day_base.days + 1):
-        day = start_of_tw + timedelta(days=i)
-        day_list.append(day)
+    day_list = return_day_list(t, start_of_tw)
+    value_list = []
+
+    for day in day_list:
+        total_amount = 0
+        for squat in tw_squats:
+            if squat.done_on.date() == day:
+                total_amount += squat.amount
+        value_list.append(total_amount)
+        print(day, total_amount)
+    
+    print(day_list)
+    print(value_list)
+
+    
     return render(request, "workout_panel.html", {
             "tw_squats": tw_squats,
             "tw_squats_total": tw_squats_total,
@@ -173,4 +183,14 @@ def return_range_of_dates(data, excerise, start, end):
     for d in dataset:
         amount += d.amount
     return dataset, amount
+
+
+def return_day_list(today, start_date):
+    day_base = today - start_date
+    day_list = []
+    for i in range(day_base.days + 1):
+        day = start_date + timedelta(days=i)
+        day_list.append(day)
+    return day_list
+
     
