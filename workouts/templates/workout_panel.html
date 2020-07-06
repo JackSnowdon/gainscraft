@@ -107,8 +107,21 @@
 
 <section class="day-tests">
     <div class="row">
-        <div class="col-6">
-            {% for key, value in graph_info.items %}
+        <div class="col-4">
+            <h5>Press Ups:</h5>
+            {% for key, value in press_up_graph_info.items %}
+            <p>{{ key }} {{ value }}</p>
+            {% endfor %}
+        </div>
+        <div class="col-4">
+            <h5>Sit Ups:</h5>
+            {% for key, value in sit_up_graph_info.items %}
+            <p>{{ key }} {{ value }}</p>
+            {% endfor %}
+        </div>
+        <div class="col-4">
+            <h5>Squats:</h5>
+            {% for key, value in squat_graph_info.items %}
             <p>{{ key }} {{ value }}</p>
             {% endfor %}
         </div>

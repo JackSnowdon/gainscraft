@@ -87,8 +87,9 @@ def workout_panel(request, days):
     single_date_form = SingleDateForm()
     days += 1
     day_list = return_day_list(t, start_of_tw)
-    value_list = return_day_values(day_list, tw_squats)
-    graph_info = dict(zip(day_list, value_list))
+    squat_graph_info = return_day_values(day_list, tw_squats)
+    sit_up_graph_info = return_day_values(day_list, tw_situps)
+    press_up_graph_info = return_day_values(day_list, tw_pressups)
     return render(request, "workout_panel.html", {
             "tw_squats": tw_squats,
             "tw_squats_total": tw_squats_total,
@@ -100,7 +101,9 @@ def workout_panel(request, days):
             "start_of_tw": start_of_tw,
             "single_date_form": single_date_form,
             "days": days,
-            "graph_info": graph_info,
+            "squat_graph_info": squat_graph_info,
+            "sit_up_graph_info": sit_up_graph_info,
+            "press_up_graph_info": press_up_graph_info,
         })
 
 
@@ -190,5 +193,6 @@ def return_day_values(day_list, dataset):
             if w.done_on.date() == day:
                 total_amount += w.amount
         value_list.append(total_amount)
-    return value_list
+    info = dict(zip(day_list, value_list))
+    return info
     
