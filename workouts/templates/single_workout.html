@@ -1,0 +1,67 @@
+{% extends 'base.html' %} {% load static %} {% block page_title %} | {{ user.profile }}'s {{ workout }}s {% endblock %} {% block content %}
+
+<section class="button-nav">
+    <div class="row mb-5">
+        <div class="col-12">
+            <a href="{% url 'workout_panel' 6 %}" role="button" class="btn btn-warning" aria-disabled="false">Back</a>
+        </div>
+    </div>
+</section>
+
+<section class="header">
+    <div class="row mb-3 text-center">
+        <div class="col-12">
+            <form role="form" method="post" id="get-single-date" action="{% url 'get_single_date' %}">
+                {% csrf_token %}
+                <div class="input-group date mb-2" id="singledatepicker" data-target-input="nearest">
+                    {{ single_date_form.date }}
+                    <div class="input-group-append" data-target="#singledatepicker" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
+                <br>
+                <input type="submit" class="btn btn-success" value="Get Single Day">
+            </form>
+        </div>
+    </div>
+</section>
+
+<section class="results-panel">
+    <div class="row text-center">
+        <div class="col-12 text-center mb-2">
+            <h4>{{ workout }}s: <span class="small"> {{ start_of_tw }} - {{ t }}</span></h4>
+            <hr>
+        </div>
+        <div class="col-12">
+            <h5>{{ workout }}s: {{ wo_total }}</h5>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Time</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for w in wo %}
+                    <tr>
+                        <th scope="row">{{ w.amount }}</th>
+                        <td>{{ w.done_on|date:"g:i a" }}</td>
+                        <td>
+                            <a href="{% url 'delete_workout' w.id %}"><i class="far fa-trash-alt"></i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+{% endblock %} {% block script_js %}
+<script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+<script type="text/javascript" src="{% static 'js/datepicker.js' %}"></script>
+
+<!-- Chart Vars -->
+
+{% endblock %}

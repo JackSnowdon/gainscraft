@@ -6,5 +6,6 @@ urlpatterns = [
     path('add_workout/', add_workout, name="add_workout"),
     path('delete_workout/<int:pk>', delete_workout, name="delete_workout"),
     path('workout_panel/<int:days>', workout_panel, name="workout_panel"),
-    path('get_single_date/', get_single_date, name="get_single_date")
+    path('get_single_date/', get_single_date, name="get_single_date"),
+    path('single_workout/<str:workout>/<int:days>/', single_workout, name="single_workout")
 ]

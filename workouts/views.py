@@ -138,6 +138,34 @@ def get_single_date(request):
     )
 
 
+@login_required
+def single_workout(request, workout, days):
+    profile = request.user.profile
+    workouts = Workout.objects.filter(done_by=profile).order_by("-done_on")
+    wo, wo_total = return_range_of_dates(workouts, workout, 0, days)
+    t = date.today()
+    start_of_tw = t - timedelta(days=days)
+    days += 1
+    day_list = return_day_list(t, start_of_tw)
+    graph_info = return_day_values(day_list, wo)
+    single_date_form = SingleDateForm()
+    return render(
+        request,
+        "single_workout.html",
+        {
+            "workout": workout,
+            "wo": wo,
+            "wo_total": wo_total,
+            "t": t,
+            "start_of_tw": start_of_tw,
+            "days": days,
+            "graph_info": graph_info,
+            "day_list": day_list,
+            "single_date_form": single_date_form,
+        },
+    )
+
+
 # Helper Functions 
 
 

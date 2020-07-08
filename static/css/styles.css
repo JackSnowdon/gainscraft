@@ -87,6 +87,19 @@ tr {
     display: inline-flex;
 }
 
+.workout-link {
+    color: #0a1302;
+    transition: all 0.35s ease-in-out;
+    -moz-transition: all 0.35s ease-in-out;
+    -webkit-transition: all 0.35s ease-in-out;
+    -o-transition: all 0.35s ease-in-out;
+}
+
+.workout-link:hover {
+    color: #7c1f0a;
+    text-decoration: none;
+}
+
 
 /* Media Queires */
 
