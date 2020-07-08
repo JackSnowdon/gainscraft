@@ -66,6 +66,18 @@ tr {
     font-size: 20px;
 }
 
+.profile-link a {
+    color: #0a1302;
+    transition: all 0.1s ease-in-out;
+    -moz-transition: all 0.1s ease-in-out;
+    -webkit-transition: all 0.1s ease-in-out;
+    -o-transition: all 0.1s ease-in-out;
+}
+
+.profile-link a:hover {
+    color: #7c1a1a;
+}
+
 
 /* Workouts */
 
@@ -96,7 +108,7 @@ tr {
 }
 
 .workout-link:hover {
-    color: #7c1f0a;
+    color: #a521a5;
     text-decoration: none;
 }
 

@@ -8,4 +8,22 @@
     </div>
 </section>
 
+<section class="body-text">
+    <div class="row">
+        <div class="col-12">
+            <h4>Welcome To Gainscraft</h4>
+            <p class="ml-2"> - Welcome, upon registering you'll have access to your own workout trackers, which in turn generates graphs and infomation to help to stay in shape!</p>
+        </div>
+        <div class="col-12 text-center mb-3">
+            {% if user.is_authenticated %}
+            <a href="{% url 'workout_home' %}" role="button" class="btn btn-success" id="admin-panel" aria-disabled="false">Workout Panel</a> {% else %}
+            <div class="row">
+                <div class="col-6"><a href="{% url 'registration' %}" role="button" class="btn btn-success" id="admin-panel" aria-disabled="false">Registration</a></div>
+                <div class="col-6"><a href="{% url 'login' %}" role="button" class="btn btn-success" id="admin-panel" aria-disabled="false">Login</a></div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
 {% endblock %}
