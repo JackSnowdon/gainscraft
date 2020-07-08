@@ -124,6 +124,13 @@
     </div>
 </section>
 
+<!-- New JavaScript Helpers -->
+
+{{ tw_pressups_total|json_script:"press_ups" }} {{ tw_situps_total|json_script:"sit_ups" }} {{ tw_squats_total|json_script:"squats" }}
+
+
+<!-- End of helpers -->
+
 {% endblock %} {% block script_js %}
 <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
 <script type="text/javascript" src="{% static 'js/datepicker.js' %}"></script>
@@ -134,10 +141,9 @@
     // Single List
     // Time Frame Totals
 
-
-    var pressups = parseInt("{{ tw_pressups_total }}");
-    var situps = parseInt("{{ tw_situps_total }}");
-    var squats = parseInt("{{ tw_squats_total }}");
+    var pressups = JSON.parse(document.getElementById('press_ups').textContent);
+    var situps = JSON.parse(document.getElementById('sit_ups').textContent);
+    var squats = JSON.parse(document.getElementById('squats').textContent);
     var chartData = {
         type: "bar3d",
         "background-color": "#D9E3C4",
