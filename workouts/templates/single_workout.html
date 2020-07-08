@@ -2,26 +2,8 @@
 
 <section class="button-nav">
     <div class="row mb-5">
-        <div class="col-12">
+        <div class="col-12 mb-4">
             <a href="{% url 'workout_panel' 6 %}" role="button" class="btn btn-warning" aria-disabled="false">Back</a>
-        </div>
-    </div>
-</section>
-
-<section class="header">
-    <div class="row mb-3 text-center">
-        <div class="col-12">
-            <form role="form" method="post" id="get-single-date" action="{% url 'get_single_date' %}">
-                {% csrf_token %}
-                <div class="input-group date mb-2" id="singledatepicker" data-target-input="nearest">
-                    {{ single_date_form.date }}
-                    <div class="input-group-append" data-target="#singledatepicker" data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                    </div>
-                </div>
-                <br>
-                <input type="submit" class="btn btn-success" value="Get Single Day">
-            </form>
         </div>
     </div>
 </section>
@@ -32,8 +14,15 @@
             <h4>{{ workout }}s: <span class="small"> {{ start_of_tw }} - {{ t }}</span></h4>
             <hr>
         </div>
-        <div class="col-12">
-            <h5>{{ workout }}s: {{ wo_total }}</h5>
+    </div>
+    <div class="row justify-content-center text-center">
+        <div class="col-12 mb-3">
+            {% if days == 30 %}
+            <a href="/workouts/single_workout/{{ workout }}/6/" role="button" class="btn btn-warning" aria-disabled="false">7 Day Total</a>{% else %}
+            <a href="/workouts/single_workout/{{ workout }}/29/" role="button" class="btn btn-warning" aria-disabled="false">30 Day Total</a> {% endif %}
+        </div>
+        <div class="col-md-10 col-12">
+            <h5>Last {{ days }} days of {{ workout }}s Total: {{ wo_total }}</h5>
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -46,7 +35,7 @@
                     {% for w in wo %}
                     <tr>
                         <th scope="row">{{ w.amount }}</th>
-                        <td>{{ w.done_on|date:"g:i a" }}</td>
+                        <td>{{ w.done_on|date:"g:i a d/m" }}</td>
                         <td>
                             <a href="{% url 'delete_workout' w.id %}"><i class="far fa-trash-alt"></i></a>
                         </td>

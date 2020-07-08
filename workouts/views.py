@@ -148,7 +148,6 @@ def single_workout(request, workout, days):
     days += 1
     day_list = return_day_list(t, start_of_tw)
     graph_info = return_day_values(day_list, wo)
-    single_date_form = SingleDateForm()
     return render(
         request,
         "single_workout.html",
@@ -161,7 +160,6 @@ def single_workout(request, workout, days):
             "days": days,
             "graph_info": graph_info,
             "day_list": day_list,
-            "single_date_form": single_date_form,
         },
     )
 
