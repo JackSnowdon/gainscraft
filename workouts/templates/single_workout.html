@@ -47,10 +47,78 @@
     </div>
 </section>
 
+<section class="results-chart">
+    <div class="row">
+        <div class="col-12">
+            <div id="newChart"></div>
+        </div>
+    </div>
+</section>
+
 {% endblock %} {% block script_js %}
 <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
 <script type="text/javascript" src="{% static 'js/datepicker.js' %}"></script>
 
 <!-- Chart Vars -->
+
+<script>
+    // Multi List 
+    // Create dateList from django templating 
+    var dateList = []
+    "{% for day in day_list %}"
+    dateList.push("{{ day|date:'d/m' }}");
+    "{% endfor %}"
+
+    // Create Excerise List
+
+    var workoutList = []
+    "{% for key, value in graph_info.items %}"
+    workoutList.push(parseInt("{{ value }}"));
+    "{% endfor %}"
+
+    var multiConfig = {
+        type: 'bar',
+        "background-color": "#D9E3C4",
+        title: {
+            text: '{{ workout }} Chart',
+            fontSize: 24,
+            color: '#5d7d9a'
+        },
+        scaleX: {
+            // set scale label
+            label: {
+                text: 'Dates'
+            },
+            // convert text on scale indices
+            labels: dateList,
+        },
+        plot: {
+            animation: {
+                "effect": "ANIMATION_SLIDE_BOTTOM",
+                "sequence": 0,
+                "speed": 750,
+                "delay": 250,
+            }
+        },
+        tooltip: {
+            callout: true,
+            borderColor: "#F4F2F2",
+            borderWidth: 2,
+            borderRadius: "3px",
+            shadow: false,
+            short: true,
+            text: "%kt: %v {{ workout }}s",
+        },
+        series: [{
+            values: workoutList,
+            backgroundColor: '#2d80a6 #0fasBF'
+        }],
+    };
+
+    zingchart.render({
+        id: 'newChart',
+        data: multiConfig,
+    });
+</script>
 
 {% endblock %}
