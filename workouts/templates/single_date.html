@@ -124,26 +124,35 @@
     var situps = parseInt("{{ sit_ups_today }}");
     var squats = parseInt("{{ squats_today }}");
     var chartData = {
-        "type": "bar3d",
+        type: "bar3d",
         "background-color": "#D9E3C4",
         "3d-aspect": {
             "true3d": false
         },
-        "scale-x": {
-            "values": [
+        scaleX: {
+            values: [
                 "Press Ups",
                 "Sit Ups",
                 "Squats",
             ]
         },
-        "series": [{
-            "values": [
+        series: [{
+            values: [
                 pressups,
                 situps,
                 squats,
             ]
         }],
-        "plot": {
+        tooltip: {
+            callout: true,
+            borderColor: "#F4F2F2",
+            borderWidth: 2,
+            borderRadius: "3px",
+            shadow: false,
+            short: true,
+            text: "%kt: %v",
+        },
+        plot: {
             "bars-space-left": 0.15,
             "bars-space-right": 0.15,
             "animation": {

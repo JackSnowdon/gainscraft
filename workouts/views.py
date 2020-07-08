@@ -90,8 +90,6 @@ def workout_panel(request, days):
     squat_graph_info = return_day_values(day_list, tw_squats)
     sit_up_graph_info = return_day_values(day_list, tw_situps)
     press_up_graph_info = return_day_values(day_list, tw_pressups)
-    for day in day_list:
-        print(day)
     return render(request, "workout_panel.html", {
             "tw_squats": tw_squats,
             "tw_squats_total": tw_squats_total,
