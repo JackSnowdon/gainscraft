@@ -36,12 +36,97 @@
     </div>
 </section>
 
-{% if user.profile.staff_access %}
+<section class="results-chart">
+    <div class="row mb-3">
+        <div class="col-12">
+            <div id="panelChart"></div>
+        </div>
+    </div>
+</section>
+
+{{ press_ups_lifetime|json_script:"press_ups" }} {{ sit_ups_lifetime|json_script:"sit_ups" }} {{ squats_lifetime|json_script:"squats" }} {% if user.profile.staff_access %}
 <div class="row">
     <div class="col-12 text-center mb-3">
         <a href="{% url 'admin_panel' %}" role="button" class="btn btn-success" id="admin-panel" aria-disabled="false">Admin Panel</a>
     </div>
 </div>
 {% endif %} {% endblock %} {% block script_js %}
+<script src="https://cdn.zingchart.com/zingchart.min.js"></script>
 <script type="text/javascript" src="{% static 'js/datepicker.js' %}"></script>
+
+<!-- Chart Vars -->
+
+<script>
+    var pressups = JSON.parse(document.getElementById('press_ups').textContent);
+    var situps = JSON.parse(document.getElementById('sit_ups').textContent);
+    var squats = JSON.parse(document.getElementById('squats').textContent);
+
+    var chartData = {
+        type: "bar3d",
+        "background-color": "#D9E3C4",
+        "3d-aspect": {
+            "true3d": false
+        },
+        title: {
+            text: 'Lifetime Totals',
+            fontSize: 24,
+            color: '#5d7d9a'
+        },
+        scaleX: {
+            "values": [
+                "Press Ups",
+                "Sit Ups",
+                "Squats",
+            ]
+        },
+        series: [{
+            "values": [
+                pressups,
+                situps,
+                squats,
+            ]
+        }],
+        tooltip: {
+            callout: true,
+            borderColor: "#F4F2F2",
+            borderWidth: 2,
+            borderRadius: "3px",
+            shadow: false,
+            short: true,
+            text: "%kt: %v",
+        },
+        plot: {
+            "bars-space-left": 0.15,
+            "bars-space-right": 0.15,
+            animation: {
+                effect: "ANIMATION_SLIDE_BOTTOM",
+                sequence: 0,
+                speed: 1000,
+                delay: 250,
+            },
+            facets: {
+                front: {
+                    "background-color": "#D8B679 #0fasBF"
+                },
+                right: {
+                    "background-color": "#D8B679 #0fasBF"
+                },
+                left: {
+                    "background-color": "#D8B679 #0fasBF"
+                },
+                top: {
+                    "background-color": "#D8B679"
+                },
+                bottom: {
+                    "background-color": "#D8B679"
+                }
+            }
+        },
+    }
+
+    zingchart.render({
+        id: "panelChart",
+        data: chartData,
+    });
+</script>
 {% endblock %}
