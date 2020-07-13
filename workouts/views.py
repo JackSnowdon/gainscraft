@@ -204,6 +204,12 @@ def return_range_of_dates(data, excerise, start, end):
 
 
 def return_day_list(today, start_date):
+    """
+    Takes today (datetime)
+    start_date (datetime)
+    
+    returns list of days between two dates formated for zingcharts
+    """
     day_base = today - start_date
     day_list = []
     for i in range(day_base.days + 1):
@@ -213,6 +219,11 @@ def return_day_list(today, start_date):
 
 
 def return_day_values(day_list, dataset):
+    """
+    Takes day_list and dataset
+
+    returns fomrated graph data for workout on each day
+    """
     value_list = []
     for day in day_list:
         total_amount = 0
