@@ -39,6 +39,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}">Logout</a>
                 </li>
+                {% if user.profile.staff_access %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'game_home' %}">Game</a>
+                </li>
+                {% endif %}
                 <!--- Below LI displays active user logged in -->
                 <li class="nav-item logged-in">Logged in as: <span class="capitalize">{{user}}</span></li>
                 {% else %}
