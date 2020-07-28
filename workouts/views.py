@@ -210,6 +210,7 @@ def return_day_list(today, start_date):
     
     returns list of days between two dates formated for zingcharts
     """
+
     day_base = today - start_date
     day_list = []
     for i in range(day_base.days + 1):
