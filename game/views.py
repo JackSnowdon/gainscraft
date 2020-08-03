@@ -3,6 +3,7 @@ from .models import *
 from .forms import *
 from datetime import date, datetime, timedelta
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
 from workouts.views import return_single_day, return_day_list, return_day_values
 from workouts.models import *
@@ -31,7 +32,13 @@ def game_home(request):
             current_streak = 0
         point_base += value
     point_total = point_base + streak_bonus
-    return render(request, "game_home.html", {"point_base": point_base, "longest_streak": longest_streak, "point_total": point_total, "streak_bonus": streak_bonus, "start_date": start_date })
+    try:
+        game_profile = profile.game_base
+    except ObjectDoesNotExist:
+        game_profile = None
+    else: 
+        game_profile = profile.game_base
+    return render(request, "game_home.html", {"point_base": point_base, "longest_streak": longest_streak, "point_total": point_total, "streak_bonus": streak_bonus, "start_date": start_date, "game_profile": game_profile })
 
 
 @login_required
@@ -47,5 +54,19 @@ def start_new_game(request):
     else:
         game_form = StartGameForm()
     return render(request, "start_new_game.html", {"game_form": game_form})
+
+
+@login_required
+def delete_game(request, pk):
+    this_game = get_object_or_404(GameBase, pk=pk)
+    if this_game.done_by == request.user.profile:
+        this_game.delete()
+        messages.error(
+            request, f"Deleted {this_game}", extra_tags="alert"
+        )
+        return redirect(reverse("game_home"))
+    else:
+        messages.error(request, f"Not Your Game!", extra_tags="alert")
+        return redirect("game_home")
 
         

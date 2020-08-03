@@ -23,9 +23,11 @@
 <section class="game-header mb-5">
     <div class="row">
         <div class="col-12">
+            {% if game_profile == None %}
             <h3>No Game Profile</h3>
-            <a href="{% url 'start_new_game' %}" role="button" class="btn btn-success" aria-disabled="false">Create Game Profile</a>
+            <a href="{% url 'start_new_game' %}" role="button" class="btn btn-success" aria-disabled="false">Create Game Profile</a>{% else %}
             <h3>Name: {{ user.profile.game_base }}</h3>
+            <a href="{% url 'delete_game' user.profile.game_base.pk %}" role="button" class="btn btn-danger" aria-disabled="false">Delete Game</a>{% endif %}
         </div>
     </div>
 </section>
