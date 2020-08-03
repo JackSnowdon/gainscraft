@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from .models import *
+from .forms import *
 from datetime import date, datetime, timedelta
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -32,3 +33,19 @@ def game_home(request):
     point_total = point_base + streak_bonus
     return render(request, "game_home.html", {"point_base": point_base, "longest_streak": longest_streak, "point_total": point_total, "streak_bonus": streak_bonus, "start_date": start_date })
 
+
+@login_required
+def start_new_game(request):
+    if request.method == "POST":
+        game_form = StartGameForm(request.POST)
+        if game_form.is_valid():
+            form = game_form.save(commit=False)
+            form.done_by = request.user.profile
+            form.save()
+            messages.error(request, "Started {0}".format(form.name), extra_tags="alert")
+            return redirect("game_home")
+    else:
+        game_form = StartGameForm()
+    return render(request, "start_new_game.html", {"game_form": game_form})
+
+        

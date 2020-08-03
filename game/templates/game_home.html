@@ -3,7 +3,7 @@
 <section class="header">
     <div class="row mb-5">
         <div class="col-12 text-center">
-            <h1 class="headliner-text">Game Home</h1>
+            <h1 class="headliner-text">Crafts</h1>
         </div>
     </div>
 </section>
@@ -14,8 +14,18 @@
             <p class="game-header">Welcome to the hidden game section of gainscraft, or the craft side of the gains! You get one point per workout, bonus' for streaks and more to come!</p>
         </div>
         <div class="col-6">
-            <h3>{{ user }}'s Game Panel</h3>
+            <h4>{{ user }}'s Game Panel</h4>
             <p> - Signed up on {{ start_date }}</p>
+        </div>
+    </div>
+</section>
+
+<section class="game-header mb-5">
+    <div class="row">
+        <div class="col-12">
+            <h3>No Game Profile</h3>
+            <a href="{% url 'start_new_game' %}" role="button" class="btn btn-success" aria-disabled="false">Create Game Profile</a>
+            <h3>Name: {{ user.profile.game_base }}</h3>
         </div>
     </div>
 </section>
