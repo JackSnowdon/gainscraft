@@ -42,10 +42,10 @@
             <p>Longest Streak: {{ longest_streak }} Days</p>
             <h5 class="mb-2">Lifetime Points: {{ point_total }}</h5>
             <h4>Transferable Amount: {{ transfer_amount }}</h4>
+            <a href="{% url 'transfer_points' game_profile.pk transfer_amount %}" role="button" class="btn btn-success" aria-disabled="false">Transfer Points</a>
         </div>
         <div class="col-6 text-center">
             <h4>Current Points: {{ game_profile.current_points }}</h4>
-            <a href="{% url 'transfer_points' game_profile.pk transfer_amount %}" role="button" class="btn btn-success" aria-disabled="false">Transfer Points</a>
         </div>
         <div class="col-12 text-center">
         </div>

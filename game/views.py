@@ -22,6 +22,7 @@ def game_home(request):
     current_streak = 0
     longest_streak = 0
     streak_bonus = 0
+    transfer_amount = 0
     for day, value in point_dict.items():
         if value > 0:
             current_streak += 1
