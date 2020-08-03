@@ -8,10 +8,29 @@
     </div>
 </section>
 
+<section class="profile-header mb-5">
+    <div class="row">
+        <div class="col-12 mb-2">
+            <p class="game-header">Welcome to the hidden game section of gainscraft, or the craft side of the gains! You get one point per workout, bonus' for streaks and more to come!</p>
+        </div>
+        <div class="col-6">
+            <h3>{{ user }}'s Game Panel</h3>
+            <p> - Signed up on {{ start_date }}</p>
+        </div>
+    </div>
+</section>
+
 <section class="point-header">
     <div class="row">
+        <div class="col-6 text-center">
+            <h5>Points From Workouts: {{ point_base }}</h5>
+        </div>
+        <div class="col-6 text-center">
+            <h5>Streak Bonus: {{ streak_bonus }}</h5>
+            <p>Longest Streak: {{ longest_streak }} Days</p>
+        </div>
         <div class="col-12 text-center">
-            <h5>Points Total: {{ point_total }}</h5>
+            <h3>Current Total: {{ point_total }}</h3>
         </div>
     </div>
 </section>
