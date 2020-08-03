@@ -38,7 +38,8 @@ def game_home(request):
         game_profile = None
     else: 
         game_profile = profile.game_base
-    return render(request, "game_home.html", {"point_base": point_base, "longest_streak": longest_streak, "point_total": point_total, "streak_bonus": streak_bonus, "start_date": start_date, "game_profile": game_profile })
+        transfer_amount = point_total - game_profile.cashed_in_amount
+    return render(request, "game_home.html", {"point_base": point_base, "longest_streak": longest_streak, "point_total": point_total, "streak_bonus": streak_bonus, "start_date": start_date, "game_profile": game_profile, "transfer_amount": transfer_amount })
 
 
 @login_required
@@ -64,6 +65,19 @@ def delete_game(request, pk):
         messages.error(
             request, f"Deleted {this_game}", extra_tags="alert"
         )
+        return redirect(reverse("game_home"))
+    else:
+        messages.error(request, f"Not Your Game!", extra_tags="alert")
+        return redirect("game_home")
+
+
+@login_required
+def transfer_points(request, pk, value):
+    this_game = get_object_or_404(GameBase, pk=pk)
+    if this_game.done_by == request.user.profile:
+        this_game.current_points += value
+        this_game.cashed_in_amount += value
+        this_game.save()
         return redirect(reverse("game_home"))
     else:
         messages.error(request, f"Not Your Game!", extra_tags="alert")

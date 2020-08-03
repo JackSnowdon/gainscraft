@@ -26,25 +26,30 @@
             {% if game_profile == None %}
             <h3>No Game Profile</h3>
             <a href="{% url 'start_new_game' %}" role="button" class="btn btn-success" aria-disabled="false">Create Game Profile</a>{% else %}
-            <h3>Name: {{ user.profile.game_base }}</h3>
-            <a href="{% url 'delete_game' user.profile.game_base.pk %}" role="button" class="btn btn-danger" aria-disabled="false">Delete Game</a>{% endif %}
+            <h3>Name: {{ game_profile }}</h3>
+            <a href="{% url 'delete_game' game_profile.pk %}" role="button" class="btn btn-danger" aria-disabled="false">Delete Game</a>{% endif %}
         </div>
     </div>
 </section>
+
+{% if game_profile %}
 
 <section class="point-header">
     <div class="row">
         <div class="col-6 text-center">
             <h5>Points From Workouts: {{ point_base }}</h5>
-        </div>
-        <div class="col-6 text-center">
             <h5>Streak Bonus: {{ streak_bonus }}</h5>
             <p>Longest Streak: {{ longest_streak }} Days</p>
+            <h5 class="mb-2">Lifetime Points: {{ point_total }}</h5>
+            <h4>Transferable Amount: {{ transfer_amount }}</h4>
+        </div>
+        <div class="col-6 text-center">
+            <h4>Current Points: {{ game_profile.current_points }}</h4>
+            <a href="{% url 'transfer_points' game_profile.pk transfer_amount %}" role="button" class="btn btn-success" aria-disabled="false">Transfer Points</a>
         </div>
         <div class="col-12 text-center">
-            <h3>Current Total: {{ point_total }}</h3>
         </div>
     </div>
 </section>
 
-{% endblock %}
+{% endif %} {% endblock %}
