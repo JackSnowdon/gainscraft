@@ -1,0 +1,20 @@
+{% extends 'base.html' %} {% load static %} {% block page_title %} Enter Game | Gainscraft {% endblock %} {% block content %}
+
+<section class="button-nav">
+    <div class="row mb-5">
+        <div class="col-12">
+            <a href="{% url 'game_home' %}" role="button" class="btn btn-warning" aria-disabled="false">Back To Point Transfer</a>
+        </div>
+    </div>
+</section>
+
+<section class="header">
+    <div class="row mb-5">
+        <div class="col-12 text-center">
+            <h1 class="headliner-text">{{ game_profile.name }}</h1>
+            <h4>Current Points: {{ game_profile.current_points }}</h4>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

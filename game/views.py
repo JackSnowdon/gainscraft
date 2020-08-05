@@ -85,3 +85,8 @@ def transfer_points(request, pk, value):
         return redirect("game_home")
 
         
+@login_required
+def enter_game(request):
+    profile = request.user.profile
+    game_profile = profile.game_base
+    return render(request, "enter_game.html", {"game_profile": game_profile})

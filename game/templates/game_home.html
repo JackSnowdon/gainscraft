@@ -9,7 +9,7 @@
 </section>
 
 <section class="profile-header mb-5">
-    <div class="row">
+    <div class="row text-center">
         <div class="col-12 mb-2">
             <p class="game-header">Welcome to the hidden game section of gainscraft, or the craft side of the gains! You get one point per workout, bonus' for streaks and more to come!</p>
         </div>
@@ -17,16 +17,11 @@
             <h4>{{ user }}'s Game Panel</h4>
             <p> - Signed up on {{ start_date }}</p>
         </div>
-    </div>
-</section>
-
-<section class="game-header mb-5">
-    <div class="row">
-        <div class="col-12">
+        <div class="col-6">
             {% if game_profile == None %}
-            <h3>No Game Profile</h3>
+            <h4>No Game Profile</h4>
             <a href="{% url 'start_new_game' %}" role="button" class="btn btn-success" aria-disabled="false">Create Game Profile</a>{% else %}
-            <h3>Name: {{ game_profile }}</h3>
+            <h4>Name: {{ game_profile }}</h4>
             <a href="{% url 'delete_game' game_profile.pk %}" role="button" class="btn btn-danger" aria-disabled="false">Delete Game</a>{% endif %}
         </div>
     </div>
@@ -37,17 +32,24 @@
 <section class="point-header">
     <div class="row">
         <div class="col-6 text-center">
-            <h5>Points From Workouts: {{ point_base }}</h5>
-            <h5>Streak Bonus: {{ streak_bonus }}</h5>
-            <p>Longest Streak: {{ longest_streak }} Days</p>
-            <h5 class="mb-2">Lifetime Points: {{ point_total }}</h5>
             <h4>Transferable Amount: {{ transfer_amount }}</h4>
-            <a href="{% url 'transfer_points' game_profile.pk transfer_amount %}" role="button" class="btn btn-success" aria-disabled="false">Transfer Points</a>
+            <div class="row">
+                <div class="col-6">
+                    <h5>Points From Workouts: {{ point_base }}</h5>
+                    <h5 class="mb-2">Lifetime Points: {{ point_total }}</h5>
+                </div>
+                <div class="col-6">
+                    <h5>Streak Bonus: {{ streak_bonus }}</h5>
+                    <p>Longest Streak: {{ longest_streak }} Days</p>
+                </div>
+            </div>
         </div>
         <div class="col-6 text-center">
             <h4>Current Points: {{ game_profile.current_points }}</h4>
+            <a href="{% url 'transfer_points' game_profile.pk transfer_amount %}" role="button" class="btn btn-success" aria-disabled="false">Transfer Points</a>
         </div>
         <div class="col-12 text-center">
+            <a href="{% url 'enter_game' %}" role="button" class="btn btn-success" aria-disabled="false">Enter Game</a>
         </div>
     </div>
 </section>
