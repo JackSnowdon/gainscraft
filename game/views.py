@@ -108,6 +108,28 @@ def add_strengh(request):
     return redirect("enter_game")
 
 
+@login_required
+def create_enemy(request):
+    profile = request.user.profile
+    if request.method == "POST":
+        if profile.game_base.target:
+            profile.game_base.target.delete()
+        enemy_form = NewEnemyForm(request.POST)
+        if enemy_form.is_valid():
+            form = enemy_form.save(commit=False)
+            form.max_hp = form.level * 100
+            form.current_hp = form.max_hp
+            form.strengh = form.level * 2
+            form.xp = form.level * 10
+            form.fighting = profile.game_base
+            form.save()
+            messages.error(request, f"Created {form.name}", extra_tags="alert")
+            return redirect("enter_game")
+    else:
+        enemy_form = NewEnemyForm()
+    return render(request, "create_enemy.html", {"enemy_form": enemy_form})
+
+
 # Helper Functions
 
 

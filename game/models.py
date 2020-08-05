@@ -16,3 +16,17 @@ class GameBase(models.Model):
     def __str__(self):
         return self.name
 
+
+class Enemy(models.Model):
+    name = models.CharField(max_length=255)
+    current_hp = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(10000000)], default=1)
+    max_hp = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(10000000)], default=1)
+    level = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(10000)], default=1)
+    strengh = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(10000)], default=1)
+    xp = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(10000000)], default=1)
+    fighting = models.OneToOneField(GameBase, related_name='target', on_delete=models.PROTECT)
+
+    def __str__(self):
+        return self.name
+
+

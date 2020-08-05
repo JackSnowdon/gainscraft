@@ -24,6 +24,22 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-4 col-12 text-center">
+            <a href="{% url 'create_enemy' %}" role="button" class="btn btn-warning" aria-disabled="false">Create Enemy</a>
+        </div>
+        <div class="col-md-4 col-12 text-center">
+            <h3>{{ game_profile.target.name }}</h3>
+            <h5>Level: {{ game_profile.target.level }}</h5>
+            <h5>HP: {{ game_profile.target.current_hp }}/{{ game_profile.target.max_hp }}</h5>
+            <div class="row">
+                <div class="col-6">
+                    <p>Strengh: {{ game_profile.target.strengh }}</p>
+                </div>
+                <div class="col-6">
+                    <p>XP: {{ game_profile.target.xp }}</p>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 

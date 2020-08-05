@@ -1,0 +1,38 @@
+{% extends 'base.html' %} {% load static %} {% load crispy_forms_tags %} {% block page_title %} New Enemy | Gains Craft {% endblock %} {% block content %}
+
+<section class="button-nav">
+    <div class="row mb-5">
+        <div class="col-12">
+            <a href="{% url 'enter_game' %}" role="button" class="btn btn-warning" aria-disabled="false">Back</a>
+        </div>
+    </div>
+</section>
+
+<div class="row">
+    <div class="col-12 text-center">
+        <h1>New Enemy</h1>
+    </div>
+</div>
+
+<form role="form" method="post" id="create_new_enemy" action="{% url 'create_enemy' %}">
+    <div class="form-group body-text">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="form-group col-md-6 mb-0">
+                {{ enemy_form.name|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-6 mb-0">
+                {{ enemy_form.level|as_crispy_field }}
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-12 text-center">
+                <input class="btn btn-success" id="sumbit_enemy" name="commit" type="submit" value="Create">
+            </div>
+        </div>
+        <br>
+    </div>
+</form>
+
+{% endblock %}
