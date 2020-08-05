@@ -89,18 +89,27 @@ def transfer_points(request, pk, value):
 def enter_game(request):
     profile = request.user.profile
     game_profile = profile.game_base
-    return render(request, "enter_game.html", {"game_profile": game_profile})
+    strengh_cost = get_upgrade_amount(game_profile)
+    return render(request, "enter_game.html", {"game_profile": game_profile, "strengh_cost": strengh_cost})
 
 
 @login_required
 def add_strengh(request):
     profile = request.user.profile
     game_profile = profile.game_base
-    if game_profile.current_points >= 100:
-        game_profile.current_points -= 100
+    cost = get_upgrade_amount(game_profile)
+    if game_profile.current_points >= cost:
+        game_profile.current_points -= cost
         game_profile.strengh += 1
         game_profile.save()
-        messages.error(request, f"Upped Strengh By 1 (100 Points!)", extra_tags="alert")
+        messages.error(request, f"Upped Strengh By 1 ({cost})", extra_tags="alert")
     else:
-        messages.error(request, f"You Need 100 Points!", extra_tags="alert")
+        messages.error(request, f"You Need {cost}!", extra_tags="alert")
     return redirect("enter_game")
+
+
+# Helper Functions
+
+
+def get_upgrade_amount(profile):
+    return math.floor(100 + (profile.strengh * 1.175))

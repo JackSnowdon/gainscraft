@@ -10,18 +10,23 @@
 
 <section class="game-nav">
     <div class="row mb-5">
-        <div class="col-4 text-center">
+        <div class="col-md-4 col-12 text-center">
             <h3>{{ game_profile.name }}</h3>
             <h5>Level: {{ game_profile.level }}</h5>
             <h4>Current Points: {{ game_profile.current_points }}</h4>
             <div class="row">
                 <div class="col-6">
-                    <p>Strengh: {{ game_profile.strengh }} <a href="{% url 'add_strengh' %}" class="strengh-icon"><i class="fas fa-plus"></a></i>
+                    <p>Strengh: {{ game_profile.strengh }} <a href="{% url 'add_strengh' %}" class="strengh-icon"><i class="fas fa-plus"></a></i> {{ strengh_cost }}
                     </p>
+                </div>
+                <div class="col-6">
+                    <p>XP: {{ game_profile.xp }}</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
+{% endblock %} {% block script_js %}
+<script type="text/javascript" src="{% static 'js/clickgame.js' %}"></script>
 {% endblock %}
