@@ -7,4 +7,5 @@ urlpatterns = [
     path(r'delete_game/<int:pk>', delete_game, name="delete_game"),
     path(r'transfer_points/<int:pk>/<int:value>', transfer_points, name="transfer_points"),
     path('enter_game/', enter_game, name="enter_game"),
+    path('add_strengh/', add_strengh, name="add_strengh"),
 ]

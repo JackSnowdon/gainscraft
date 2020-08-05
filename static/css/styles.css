@@ -119,6 +119,20 @@ tr {
     font-size: 21px;
 }
 
+.strengh-icon {
+    padding-left: 1px;
+    color: #0a1302;
+    transition: all 0.15s ease-in-out;
+    -moz-transition: all 0.15s ease-in-out;
+    -webkit-transition: all 0.15s ease-in-out;
+    -o-transition: all 0.15s ease-in-out;
+}
+
+.strengh-icon:hover {
+    color: #ec1616;
+    text-decoration: none;
+}
+
 
 /* Media Queires */
 

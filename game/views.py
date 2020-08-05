@@ -90,3 +90,17 @@ def enter_game(request):
     profile = request.user.profile
     game_profile = profile.game_base
     return render(request, "enter_game.html", {"game_profile": game_profile})
+
+
+@login_required
+def add_strengh(request):
+    profile = request.user.profile
+    game_profile = profile.game_base
+    if game_profile.current_points >= 100:
+        game_profile.current_points -= 100
+        game_profile.strengh += 1
+        game_profile.save()
+        messages.error(request, f"Upped Strengh By 1 (100 Points!)", extra_tags="alert")
+    else:
+        messages.error(request, f"You Need 100 Points!", extra_tags="alert")
+    return redirect("enter_game")
