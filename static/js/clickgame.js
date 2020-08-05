@@ -8,13 +8,16 @@ $(document).ready(function() {
     var enemy_strengh = $("#enemystrengh").html()
     var enemy_xp = $("#enemyxp").html()
     var kills = 0
+    var xp = 0
 
     $("#attack-button").click(function() {
         enemy_current_hp = enemy_current_hp - hero_strengh;
         if (enemy_current_hp < 0) {
             enemy_current_hp = 0;
             kills++;
+            earnXP();
             $("#kill-counter").html(kills);
+            $("#xp-counter").html(xp);
         }
         $("#enemyhp").html(enemy_current_hp);
         if (enemy_current_hp == 0) {
@@ -26,4 +29,8 @@ $(document).ready(function() {
             }, 1000)
         }
     })
+
+    function earnXP() {
+        xp = parseInt(xp) + parseInt(enemy_xp);
+    }
 });
