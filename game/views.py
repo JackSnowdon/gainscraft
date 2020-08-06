@@ -25,8 +25,9 @@ def game_home(request):
     transfer_amount = 0
     for day, value in point_dict.items():
         if value > 0:
+            if current_streak >= 1:
+                streak_bonus += math.floor(value * 1.125) - value
             current_streak += 1
-            streak_bonus += math.floor(value * 1.125) - value
         else:
             if current_streak > longest_streak:
                 longest_streak = current_streak
@@ -112,8 +113,6 @@ def add_strengh(request):
 def create_enemy(request):
     profile = request.user.profile
     if request.method == "POST":
-        if profile.game_base.target:
-            profile.game_base.target.delete()
         enemy_form = NewEnemyForm(request.POST)
         if enemy_form.is_valid():
             form = enemy_form.save(commit=False)
@@ -128,6 +127,14 @@ def create_enemy(request):
     else:
         enemy_form = NewEnemyForm()
     return render(request, "create_enemy.html", {"enemy_form": enemy_form})
+
+
+@login_required
+def delete_enemy(request):
+    profile = request.user.profile
+    messages.error(request, f"Deleted {profile.game_base.target}", extra_tags="alert")
+    profile.game_base.target.delete()
+    return redirect("enter_game")
 
 
 # Helper Functions

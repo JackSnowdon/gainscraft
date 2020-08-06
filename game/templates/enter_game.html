@@ -25,10 +25,12 @@
             </div>
         </div>
         <div class="col-md-4 col-12 text-center">
-            <a href="{% url 'create_enemy' %}" role="button" class="btn btn-warning mb-3" aria-disabled="false">Create Enemy</a>
-            <br>
+            {% if game_profile.target %}
             <button class="btn btn-warning mb-3" id="attack-button" aria-disabled="false">Attack</button>
-            <div class="row">
+            <br>
+            <a href="{% url 'delete_enemy' %}" role="button" class="btn btn-danger mb-3" aria-disabled="false">Delete Enemy</a> {% else %}
+            <a href="{% url 'create_enemy' %}" role="button" class="btn btn-warning mb-3" aria-disabled="false">Create Enemy</a> {% endif %}
+            <div class="row stats-bar">
                 <div class="col-6">
                     <p>Current Kills: <span id="kill-counter">0</span></p>
                 </div>
@@ -38,6 +40,7 @@
             </div>
         </div>
         <div class="col-md-4 col-12 text-center">
+            {% if game_profile.target %}
             <h3>{{ game_profile.target.name }}</h3>
             <h5>Level: {{ game_profile.target.level }}</h5>
             <h5>HP: <span id="enemyhp">{{ game_profile.target.current_hp }}</span>/{{ game_profile.target.max_hp }}</h5>
@@ -49,6 +52,7 @@
                     <p>XP: <span id="enemyxp">{{ game_profile.target.xp }}</span></p>
                 </div>
             </div>
+            {% endif %}
         </div>
     </div>
 </section>
