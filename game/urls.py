@@ -10,4 +10,5 @@ urlpatterns = [
     path('add_strengh/', add_strengh, name="add_strengh"),
     path('create_enemy/', create_enemy, name="create_enemy"),
     path('delete_enemy/', delete_enemy, name="delete_enemy"),
+    path('transfer_kills/', transfer_kills, name="transfer_kills"),
 ]

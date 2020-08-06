@@ -133,6 +133,15 @@ tr {
     text-decoration: none;
 }
 
+#kills-form,
+#xp-form {
+    display: none;
+}
+
+#commit-kills {
+    display: inline-flex;
+}
+
 
 /* Media Queires */
 

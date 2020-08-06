@@ -38,6 +38,18 @@
                     <p>Current XP: <span id="xp-counter">0</span></p>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-12">
+                    <form role="form" method="POST" id="transfer_kills-form" action="{% url 'transfer_kills' %}">
+                        <div class="form-group">
+                            {% csrf_token %}
+                            <input type="number" id="kills-form" name="kills" class="mb-2">
+                            <input type="number" id="xp-form" name="xp" class="mb-2">
+                            <input class="btn btn-success" id="commit-kills" name="commit" type="submit" value="Cash In">
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
         <div class="col-md-4 col-12 text-center">
             {% if game_profile.target %}
@@ -56,6 +68,7 @@
         </div>
     </div>
 </section>
+
 
 {% endblock %} {% block script_js %}
 <script type="text/javascript" src="{% static 'js/clickgame.js' %}"></script>

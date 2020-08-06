@@ -105,7 +105,7 @@ def add_strengh(request):
         game_profile.save()
         messages.error(request, f"Upped Strengh By 1 ({cost})", extra_tags="alert")
     else:
-        messages.error(request, f"You Need {cost}!", extra_tags="alert")
+        messages.error(request, f"You Need {cost} Points!", extra_tags="alert")
     return redirect("enter_game")
 
 
@@ -135,6 +135,18 @@ def delete_enemy(request):
     messages.error(request, f"Deleted {profile.game_base.target}", extra_tags="alert")
     profile.game_base.target.delete()
     return redirect("enter_game")
+
+
+@login_required
+def transfer_kills(request):
+    if request.method == "POST":
+        profile = request.user.profile
+        game_profile = profile.game_base
+        earned_xp = int(request.POST.get("xp"))
+        game_profile.xp += earned_xp
+        game_profile.save()
+        print(request.POST.get("kills"))
+        return redirect("enter_game")
 
 
 # Helper Functions
