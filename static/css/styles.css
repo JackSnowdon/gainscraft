@@ -134,12 +134,9 @@ tr {
 }
 
 #kills-form,
-#xp-form {
-    display: none;
-}
-
+#xp-form,
 #commit-kills {
-    display: inline-flex;
+    display: none;
 }
 
 

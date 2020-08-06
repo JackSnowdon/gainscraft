@@ -143,9 +143,11 @@ def transfer_kills(request):
         profile = request.user.profile
         game_profile = profile.game_base
         earned_xp = int(request.POST.get("xp"))
+        earned_kills = int(request.POST.get("kills"))
         game_profile.xp += earned_xp
+        game_profile.kills += earned_kills
         game_profile.save()
-        print(request.POST.get("kills"))
+        messages.error(request, f"Transfered {earned_xp}XP and {earned_kills} Kills", extra_tags="alert")
         return redirect("enter_game")
 
 

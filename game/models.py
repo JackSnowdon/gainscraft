@@ -12,6 +12,7 @@ class GameBase(models.Model):
     level = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(10000)], default=1)
     strengh = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(10000)], default=1)
     xp = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(10000000)], default=1)
+    kills = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(10000000)], default=0)
 
     def __str__(self):
         return self.name

@@ -28,6 +28,7 @@ $(document).ready(function() {
                 enemy_current_hp = enemy_hp;
                 $("#enemyhp").html(enemy_current_hp);
                 $("#attack-button").attr("disabled", false);
+                $("#commit-kills").css("display", "inline-flex");
             }, 1000)
         }
     })
