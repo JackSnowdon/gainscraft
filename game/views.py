@@ -8,6 +8,8 @@ from django.contrib import messages
 from workouts.views import return_single_day, return_day_list, return_day_values
 from workouts.models import *
 import math
+import random
+
 
 # Create your views here.
 
@@ -116,10 +118,13 @@ def create_enemy(request):
         enemy_form = NewEnemyForm(request.POST)
         if enemy_form.is_valid():
             form = enemy_form.save(commit=False)
-            form.max_hp = form.level * 100
+            base_hp = form.level * 100
+            health_mod = percentage(5, base_hp)
+            final_hp = random.randint(base_hp - health_mod, base_hp + health_mod)
+            form.max_hp = final_hp
             form.current_hp = form.max_hp
             form.strengh = form.level * 2
-            form.xp = form.level * 10
+            form.xp = set_xp(final_hp)
             form.fighting = profile.game_base
             form.save()
             messages.error(request, f"Created {form.name}", extra_tags="alert")
@@ -156,3 +161,12 @@ def transfer_kills(request):
 
 def get_upgrade_amount(profile):
     return math.floor(100 + (profile.strengh * 1.175))
+
+
+def percentage(percent, whole):
+    return math.floor((percent * whole) / 100.0)
+
+
+def set_xp(hp):
+    return math.floor(hp / 10)
+    
