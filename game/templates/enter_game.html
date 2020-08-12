@@ -11,7 +11,7 @@
 <section class="game-nav">
     <div class="row mb-5">
         <div class="col-md-4 col-12 text-center">
-            <h3>{{ game_profile.name }}</h3>
+            <h3 id="heroname">{{ game_profile.name }}</h3>
             <h5>Level: {{ game_profile.level }}</h5>
             <h4>Current Points: {{ game_profile.current_points }}</h4>
             <div class="row">
@@ -54,7 +54,7 @@
         </div>
         <div class="col-md-4 col-12 text-center">
             {% if game_profile.target %}
-            <h3>{{ game_profile.target.name }}</h3>
+            <h3 id="enemyname">{{ game_profile.target.name }}</h3>
             <h5>Level: {{ game_profile.target.level }}</h5>
             <h5>HP: <span id="enemyhp">{{ game_profile.target.current_hp }}</span>/{{ game_profile.target.max_hp }}</h5>
             <div class="row">
@@ -66,6 +66,11 @@
                 </div>
             </div>
             {% endif %}
+        </div>
+        <div class="col-12 text-center">
+            <h5 id="hero-bar">
+
+            </h5>
         </div>
     </div>
 </section>
