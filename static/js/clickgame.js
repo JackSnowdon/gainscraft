@@ -41,7 +41,7 @@ $(document).ready(function() {
 
     function basicAttack() {
         var base_attack = Math.floor(hero_strengh / 2);
-        var attack_total = (getDiceRoll(hero_strengh) + base_attack) - getDiceRoll(enemy_strengh);
+        var attack_total = (getDiceRoll(hero_strengh) + base_attack) - getDiceRoll(enemy_strengh / 2);
         enemy_current_hp = enemy_current_hp - attack_total;
         $("#hero-bar").text(hero_name + " Attacks For " + attack_total + "HP")
     }

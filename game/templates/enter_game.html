@@ -29,9 +29,9 @@
         <div class="col-md-4 col-12 text-center">
             {% if game_profile.target %}
             <button class="btn btn-warning mb-3" id="attack-button" aria-disabled="false">Attack</button>
-            <br>
-            <a href="{% url 'delete_enemy' %}" role="button" class="btn btn-danger mb-3" aria-disabled="false">Delete Enemy</a> {% else %}
-            <a href="{% url 'create_enemy' %}" role="button" class="btn btn-warning mb-3" aria-disabled="false">Create Enemy</a> {% endif %}
+            <br> {% if game_profile.target.name == "Trainer" %}
+            <a href="{% url 'delete_enemy' %}" role="button" class="btn btn-danger mb-3" aria-disabled="false">Leave Training</a> {% else %}
+            <a href="{% url 'delete_enemy' %}" role="button" class="btn btn-danger mb-3" aria-disabled="false">Delete Enemy</a> {% endif %}
             <div class="row stats-bar">
                 <div class="col-6">
                     <p>Current Kills: <span id="kill-counter">0</span></p>
@@ -51,7 +51,9 @@
                         </div>
                     </form>
                 </div>
-            </div>
+            </div>{% elif game_profile.level >= 2 %}
+            <a href="{% url 'create_enemy' %}" role="button" class="btn btn-warning mb-3" aria-disabled="false">Create Enemy</a> {% else %}
+            <a href="{% url 'start_training' %}" role="button" class="btn btn-warning mb-3" aria-disabled="false">Start Training</a>{% endif %}
         </div>
         <div class="col-md-4 col-12 text-center">
             {% if game_profile.target %}

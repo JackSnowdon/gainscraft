@@ -142,7 +142,7 @@ def create_enemy(request):
             form = enemy_form.save(commit=False)
             form.max_hp = set_hp(form)
             form.current_hp = form.max_hp
-            form.strengh = form.level * 2
+            form.strengh = set_hp(form) / 10
             form.xp = set_xp(base, form.max_hp)
             form.fighting = base
             form.save()
@@ -151,6 +151,24 @@ def create_enemy(request):
     else:
         enemy_form = NewEnemyForm()
     return render(request, "create_enemy.html", {"enemy_form": enemy_form})
+
+
+@login_required
+def start_training(request):
+    profile = request.user.profile
+    base = profile.game_base
+    enemy_form = NewEnemyForm()
+    form = enemy_form.save(commit=False)
+    form.name = "Trainer"
+    form.level = 1
+    form.max_hp = set_hp(form)
+    form.current_hp = form.max_hp
+    form.strengh = set_hp(form) / 10
+    form.xp = set_xp(base, form.max_hp)
+    form.fighting = base
+    form.save()
+    messages.error(request, f"Started Training", extra_tags="alert")
+    return redirect("enter_game")
 
 
 @login_required
