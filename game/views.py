@@ -40,8 +40,7 @@ def game_home(request):
         game_profile = profile.game_base
     except ObjectDoesNotExist:
         game_profile = None
-    else: 
-        game_profile = profile.game_base
+    else:
         transfer_amount = point_total - game_profile.cashed_in_amount
     return render(request, "game_home.html", {"point_base": point_base, "longest_streak": longest_streak, "point_total": point_total, "streak_bonus": streak_bonus, "start_date": start_date, "game_profile": game_profile, "transfer_amount": transfer_amount })
 
@@ -65,7 +64,11 @@ def start_new_game(request):
 def delete_game(request, pk):
     this_game = get_object_or_404(GameBase, pk=pk)
     if this_game.done_by == request.user.profile:
-        this_game.delete()
+        try:
+            this_game.target.delete()
+            this_game.delete()
+        except ObjectDoesNotExist:
+            this_game.delete()
         messages.error(
             request, f"Deleted {this_game}", extra_tags="alert"
         )
@@ -117,6 +120,7 @@ def level_up(request):
     profile = request.user.profile
     game_profile = profile.game_base
     cost = get_level_amount(game_profile)
+    print(game_profile.xp, cost)
     if game_profile.xp >= cost:
         game_profile.xp -= cost
         game_profile.level += 1
@@ -131,18 +135,16 @@ def level_up(request):
 @login_required
 def create_enemy(request):
     profile = request.user.profile
+    base = profile.game_base
     if request.method == "POST":
         enemy_form = NewEnemyForm(request.POST)
         if enemy_form.is_valid():
             form = enemy_form.save(commit=False)
-            base_hp = form.level * 100
-            health_mod = percentage(5, base_hp)
-            final_hp = random.randint(base_hp - health_mod, base_hp + health_mod)
-            form.max_hp = final_hp
+            form.max_hp = set_hp(form)
             form.current_hp = form.max_hp
             form.strengh = form.level * 2
-            form.xp = set_xp(final_hp)
-            form.fighting = profile.game_base
+            form.xp = set_xp(base, form.max_hp)
+            form.fighting = base
             form.save()
             messages.error(request, f"Created {form.name}", extra_tags="alert")
             return redirect("enter_game")
@@ -184,13 +186,22 @@ def percentage(percent, whole):
     return math.floor((percent * whole) / 100.0)
 
 
-def set_xp(hp):
-    return math.floor(hp / 10)
+def set_xp(profile, hp):
+    return math.floor((hp / 10) * 2)
+
+
+def set_hp(form):
+    base_hp = form.level * 100
+    health_mod = percentage(5, base_hp)
+    return random.randint(base_hp - health_mod, base_hp + health_mod)
 
 
 def get_level_amount(profile):
     base = profile.level * 500
-    mod = base * 1.225
-    total = math.floor(base + mod)
+    if profile.level == 1:
+        return base
+    else:
+        mod = base * 1.225
+        total = math.floor(base + mod)
     return total
     
