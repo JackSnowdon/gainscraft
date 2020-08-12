@@ -93,7 +93,8 @@ def enter_game(request):
     profile = request.user.profile
     game_profile = profile.game_base
     strengh_cost = get_upgrade_amount(game_profile)
-    return render(request, "enter_game.html", {"game_profile": game_profile, "strengh_cost": strengh_cost})
+    level_cost = get_level_amount(game_profile)
+    return render(request, "enter_game.html", {"game_profile": game_profile, "strengh_cost": strengh_cost, "level_cost": level_cost})
 
 
 @login_required
@@ -108,6 +109,22 @@ def add_strengh(request):
         messages.error(request, f"Upped Strengh By 1 ({cost})", extra_tags="alert")
     else:
         messages.error(request, f"You Need {cost} Points!", extra_tags="alert")
+    return redirect("enter_game")
+
+
+@login_required
+def level_up(request):
+    profile = request.user.profile
+    game_profile = profile.game_base
+    cost = get_level_amount(game_profile)
+    if game_profile.xp >= cost:
+        game_profile.xp -= cost
+        game_profile.level += 1
+        game_profile.strengh += 2
+        game_profile.save()
+        messages.error(request, f"Leveled up", extra_tags="alert")
+    else:
+        messages.error(request, f"You Need {cost} XP!", extra_tags="alert")
     return redirect("enter_game")
 
 
@@ -169,4 +186,11 @@ def percentage(percent, whole):
 
 def set_xp(hp):
     return math.floor(hp / 10)
+
+
+def get_level_amount(profile):
+    base = profile.level * 500
+    mod = base * 1.225
+    total = math.floor(base + mod)
+    return total
     

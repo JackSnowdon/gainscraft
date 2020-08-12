@@ -20,7 +20,8 @@
                     </p>
                 </div>
                 <div class="col-6">
-                    <p>XP: {{ game_profile.xp }}</p>
+                    <p>XP: {{ game_profile.xp }} <a href="{% url 'level_up' %}" class="strengh-icon"><i class="fas fa-plus"></a></i> {{ level_cost }}
+                    </p>
                     <p>Lifetime Kills: {{ game_profile.kills }}</p>
                 </div>
             </div>
@@ -74,7 +75,6 @@
         </div>
     </div>
 </section>
-
 
 {% endblock %} {% block script_js %}
 <script type="text/javascript" src="{% static 'js/clickgame.js' %}"></script>
