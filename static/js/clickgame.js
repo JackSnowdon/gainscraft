@@ -32,7 +32,7 @@ $(document).ready(function() {
                 $("#enemyhp").html(enemy_current_hp);
                 $("#attack-button").attr("disabled", false);
                 $("#commit-kills").css("display", "inline-flex");
-            }, 1000)
+            }, 250)
         }
     })
 

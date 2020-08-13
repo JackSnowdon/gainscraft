@@ -126,7 +126,7 @@ def level_up(request):
         game_profile.level += 1
         game_profile.strengh += 2
         game_profile.save()
-        messages.error(request, f"Leveled up", extra_tags="alert")
+        messages.error(request, f"Leveled Up", extra_tags="alert")
     else:
         messages.error(request, f"You Need {cost} XP!", extra_tags="alert")
     return redirect("enter_game")
@@ -174,7 +174,10 @@ def start_training(request):
 @login_required
 def delete_enemy(request):
     profile = request.user.profile
-    messages.error(request, f"Deleted {profile.game_base.target}", extra_tags="alert")
+    if profile.game_base.target.name == "Trainer":
+        messages.error(request, f"Left Training", extra_tags="alert")
+    else:
+        messages.error(request, f"Deleted {profile.game_base.target}", extra_tags="alert")
     profile.game_base.target.delete()
     return redirect("enter_game")
 
